@@ -41,16 +41,18 @@ public class RaycastClickManager : MonoBehaviour
         }        
     }
 
+    // 빈 자리를 클릭하면 그림 선택창이 뜨고 고른 그림이 들어간 액자를 해당 자리에 걸 수 있다.
     private void OnMouseDown()
     {
-        // 빈 자리를 클릭하면 그림 선택창이 뜨고 고른 그림이 들어간 액자를 해당 자리에 걸 수 있다.
+        // 마우스 포인터 위치에 레이를 쏜다.
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
+            // 클릭한 오브젝트를 저장
             GameObject obj = hit.collider.gameObject;
             Debug.Log(obj.name);
-            // 빈 자리를 클릭하면
+            // 클릭한 오브젝트가 빈자리라면
             if (obj.tag == "EmptyFrame") 
             {
                 // 그림 선택창이 활성화된다.

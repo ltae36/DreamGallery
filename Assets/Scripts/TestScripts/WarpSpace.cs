@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class WarpSpace : MonoBehaviour
 {
     // 트리거에 진입하면 해당 장소로 이동한다.
-
     public GameObject moveButton;
 
     void Start()

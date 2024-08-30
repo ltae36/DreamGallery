@@ -7,17 +7,13 @@ public class FramePainting : MonoBehaviour
 {
     public bool isClick;
 
-    // 그림을 클릭하면 해당 그림의 인덱스 값이 저장이 된다.
-    public string picIndex;
-
-    Material mat;
-    Texture tex;
+    MeshRenderer mr;
+    BottonManager bm;
 
     void Start()
     {
         isClick = false;
-        mat = GetComponent<Material>();
-        tex = GetComponent<Texture>();
+        mr = GetComponent<MeshRenderer>();
     }
 
     void Update()

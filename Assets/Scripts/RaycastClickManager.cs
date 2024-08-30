@@ -1,25 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class RaycastClickManager : MonoBehaviour
 {
-    // 그림을 선택하는 ui창
+    // 그림을 선택하는 UI
     public GameObject selectPic;
-    public PicManager pm;
 
-    MeshRenderer mr;
-
-    public Texture[] tx;
-
-    FramePainting fp;
+    // 빈자리 위치(액자를 걸 자리)
+    public Transform blankFrame;    
 
     void Start()
     {
+        // 그림선택창 비활성화
         selectPic.SetActive(false);
-
-        tx = pm.paintings; // picManager의 그림들을 가져옴
     }
 
     void Update()
@@ -42,7 +38,7 @@ public class RaycastClickManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) 
         {
             OnMouseDown();
-        }
+        }        
     }
 
     private void OnMouseDown()
@@ -52,14 +48,21 @@ public class RaycastClickManager : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            string objectName = hit.collider.gameObject.name;
-            Debug.Log(objectName);
-            if (objectName == "Frame") 
+            GameObject obj = hit.collider.gameObject;
+            Debug.Log(obj.name);
+            // 빈 자리를 클릭하면
+            if (obj.tag == "EmptyFrame") 
             {
+                // 그림 선택창이 활성화된다.
                 selectPic.SetActive(true);
-                GameObject go = hit.collider.gameObject; // 선택된 게임오브젝트를 가져온다.
-                //fp = gameObject.GetComponent<FramePainting>();
-                //mr = go.GetComponent<MeshRenderer>();
+                // 선택한 자리의 위치를 저장한다.
+                blankFrame = obj.transform;
+                // 빈자리 표시를 없앤다.
+                MeshRenderer[] objMeshRenderer = obj.GetComponents<MeshRenderer>();
+                Collider objCollider = obj.GetComponent<Collider>();
+
+                objMeshRenderer[0].enabled = false;
+                objCollider.enabled = false;
             }            
         }
     }
@@ -75,4 +78,6 @@ public class RaycastClickManager : MonoBehaviour
             Debug.Log(objectName);
         }
     }
+
+
 }

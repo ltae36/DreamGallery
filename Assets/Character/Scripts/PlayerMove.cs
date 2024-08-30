@@ -18,11 +18,13 @@ public class PlayerMove : MonoBehaviour
 
     public GameObject cam;
 
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         cc = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -34,15 +36,27 @@ public class PlayerMove : MonoBehaviour
         Vector3 dirV = transform.forward * v;
         Vector3 dir = dirH + dirV;
         dir.Normalize();
+
+        if(dir != Vector3.zero)
+        {
+            anim.SetBool("IsWalking", true);
+        }
+        else
+        {
+            anim.SetBool("IsWalking", false);
+        }
+
         
         if(cc.isGrounded)
         {
             yVelocity = 0;
+            anim.SetBool("IsJumping", false);
         }
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
             yVelocity = jumpPower;
+            anim.SetBool("IsJumping", true);
         }
 
         yVelocity += gravity * Time.deltaTime;
@@ -50,5 +64,5 @@ public class PlayerMove : MonoBehaviour
         dir.y = yVelocity;
 
         cc.Move(dir * moveSpeed * Time.deltaTime);
-    }
+    }   
 }

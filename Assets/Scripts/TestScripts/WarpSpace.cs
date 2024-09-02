@@ -8,9 +8,13 @@ public class WarpSpace : MonoBehaviour
     // 트리거에 진입하면 해당 장소로 이동한다.
     public GameObject moveButton;
 
+    Animator anim;
+
     void Start()
     {
         moveButton.SetActive(false);
+
+        anim = GetComponentInParent<Animator>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -19,6 +23,7 @@ public class WarpSpace : MonoBehaviour
         // 플레이어가 들어오면 씬 이동 버튼이 활성화된다.
         if(other.gameObject.tag == "Player") 
         {
+            anim.SetTrigger("Open");
             moveButton.SetActive(true);
         }
     }

@@ -53,7 +53,7 @@ public class PlayerMove : MonoBehaviour
             anim.SetBool("IsJumping", false);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && cc.isGrounded)
         {
             yVelocity = jumpPower;
             anim.SetBool("IsJumping", true);
@@ -64,5 +64,11 @@ public class PlayerMove : MonoBehaviour
         dir.y = yVelocity;
 
         cc.Move(dir * moveSpeed * Time.deltaTime);
+
+        // anim을 이용해서 h, v 값을 전달
+        anim.SetFloat("DirH", h);
+        anim.SetFloat("DirV", v);
+
+        
     }   
 }

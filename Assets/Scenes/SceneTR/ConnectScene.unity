@@ -1279,37 +1279,7 @@ MonoBehaviour:
   - {fileID: 561908254}
   - {fileID: 2097593817}
   - {fileID: 523188498}
-  - {fileID: 523188498}
-  - {fileID: 523188498}
-  - {fileID: 523188498}
-  - {fileID: 523188498}
-  - {fileID: 523188498}
-  - {fileID: 523188498}
-  paintings:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  paintings: []
 --- !u!4 &470316410
 Transform:
   m_ObjectHideFlags: 0

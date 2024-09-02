@@ -1,30 +1,30 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PicManager : MonoBehaviour
 {
-    // ÇÃ·¹ÀÌ¾î°¡ ±×¸° ±×¸²µé(ÅØ½ºÃ³)À» ÀúÀåÇØ¼­ ºÒ·¯¿Â´Ù.
-    // ui¿¡ Â÷·Ê´ë·Î »ğÀÔÇØ Ç¥½ÃµÈ´Ù.
+    // í”Œë ˆì´ì–´ê°€ ê·¸ë¦° ê·¸ë¦¼ë“¤(í…ìŠ¤ì²˜)ì„ ì €ì¥í•´ì„œ ë¶ˆëŸ¬ì˜¨ë‹¤.
+    // uiì— ì°¨ë¡€ëŒ€ë¡œ ì‚½ì…í•´ í‘œì‹œëœë‹¤.
 
-    #region ¹è¿­·Î ³Ö±â
-    // ±×¸² ¸ñ·Ï
+    #region ë°°ì—´ë¡œ ë„£ê¸°
+    // ê·¸ë¦¼ ëª©ë¡
     public RawImage[] images;
     public List<Texture> paintings;
 
     private void Awake()
     {
-        // ÇÃ·¹ÀÌÇÏ¸é ºó Äµ¹ö½º ui¿¡ ÅØ½ºÃ³ ¹è¿­À» Áı¾î³Ö´Â´Ù.
+        // í”Œë ˆì´í•˜ë©´ ë¹ˆ ìº”ë²„ìŠ¤ uiì— í…ìŠ¤ì²˜ ë°°ì—´ì„ ì§‘ì–´ë„£ëŠ”ë‹¤.
         for (int i = 0; i < images.Length; i++)
         {
-            paintings.Add(Resources.Load("pic" + i.ToString()) as Texture); // Resouces Æú´õ¿¡¼­ ±×¸²µéÀ» °¡Á®¿Â´Ù.
+            paintings.Add(Resources.Load("pic" + i.ToString()) as Texture); // Resouces í´ë”ì—ì„œ ê·¸ë¦¼ë“¤ì„ ê°€ì ¸ì˜¨ë‹¤.
 
-            //paintings[i] = Resources.Load("pic" + i.ToString()) as Texture; // Resouces Æú´õ¿¡¼­ ±×¸²µéÀ» °¡Á®¿Â´Ù.
+            //paintings[i] = Resources.Load("pic" + i.ToString()) as Texture; // Resouces í´ë”ì—ì„œ ê·¸ë¦¼ë“¤ì„ ê°€ì ¸ì˜¨ë‹¤.
 
-            images[i].texture = paintings[i]; // RawimagesÀÇ ÅØ½ºÃ³¿¡ ±×¸²µéÀ» ³Ö´Â´Ù.
+            images[i].texture = paintings[i]; // Rawimagesì˜ í…ìŠ¤ì²˜ì— ê·¸ë¦¼ë“¤ì„ ë„£ëŠ”ë‹¤.
 
-            images[i].SetNativeSize(); // ±×¸² ÅØ½ºÃ³ Å©±â¿¡ Rawimage Å©±â¸¦ ¸ÂÃá´Ù.
+            images[i].SetNativeSize(); // ê·¸ë¦¼ í…ìŠ¤ì²˜ í¬ê¸°ì— Rawimage í¬ê¸°ë¥¼ ë§ì¶˜ë‹¤.
         }
     }
     #endregion

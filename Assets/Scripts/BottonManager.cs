@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class BottonManager : MonoBehaviour
@@ -21,11 +20,6 @@ public class BottonManager : MonoBehaviour
     void Start()
     {
         mr = frame.GetComponent<MeshRenderer>();
-    }
-
-    void Update()
-    {
-        
     }
 
     public void ClickBotton()

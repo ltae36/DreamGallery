@@ -1,14 +1,15 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WarpSpace : MonoBehaviour
 {
-    // Æ®¸®°Å¿¡ ÁøÀÔÇÏ¸é ÇØ´ç Àå¼Ò·Î ÀÌµ¿ÇÑ´Ù.
+    // íŠ¸ë¦¬ê±°ì— ì§„ì…í•˜ë©´ í•´ë‹¹ ì¥ì†Œë¡œ ì´ë™í•œë‹¤.
     public GameObject moveButton;
 
     Animator anim;
+    
 
     void Start()
     {
@@ -17,20 +18,12 @@ public class WarpSpace : MonoBehaviour
         anim = GetComponentInParent<Animator>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        print(other.gameObject.name);
-        // ÇÃ·¹ÀÌ¾î°¡ µé¾î¿À¸é ¾À ÀÌµ¿ ¹öÆ°ÀÌ È°¼ºÈ­µÈ´Ù.
-        if(other.gameObject.tag == "Player") 
+        // ë¬¸ ì•ì— í”Œë ˆì´ì–´ê°€ ìˆëŠ” ê²ƒì„ í™•ì¸í•œë‹¤.
+        if (other.gameObject.tag == "Player")
         {
-            anim.SetTrigger("Open");
             moveButton.SetActive(true);
         }
-    }
-
-
-    public void MoveMent() 
-    {
-        SceneManager.LoadScene(1);
     }
 }

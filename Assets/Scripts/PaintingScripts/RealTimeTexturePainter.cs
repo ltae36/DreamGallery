@@ -1,4 +1,4 @@
-using System.IO;
+ï»¿using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,31 +12,31 @@ public class RealTimeTexturePainter : MonoBehaviour
 
     public BrushStyle brush;
 
-    public Material materialToModify;    // ¼öÁ¤ÇÒ material
-    private Texture2D texture2D;         // ÅØ½ºÃ³¸¦ ÀúÀåÇÒ Texture2D
-    public Color paintColor = Color.red; // ÆäÀÎÆ® »ö»ó ¼³Á¤
-    public int brushRadius = 2;          // ºê·¯½ÃÀÇ ¹İ°æ (ÇÈ¼¿)
-    public GameObject canvasPlane;       // ÆäÀÎÆÃÇÒ Plane ¿ÀºêÁ§Æ®
+    public Material materialToModify;    // ìˆ˜ì •í•  material
+    private Texture2D texture2D;         // í…ìŠ¤ì²˜ë¥¼ ì €ì¥í•  Texture2D
+    public Color paintColor = Color.red; // í˜ì¸íŠ¸ ìƒ‰ìƒ ì„¤ì •
+    public int brushRadius = 2;          // ë¸ŒëŸ¬ì‹œì˜ ë°˜ê²½ (í”½ì…€)
+    public GameObject canvasPlane;       // í˜ì¸íŒ…í•  Plane ì˜¤ë¸Œì íŠ¸
 
-    //¾ËÆÄ º¯°æ ½½¶óÀÌ´õ
+    //ì•ŒíŒŒ ë³€ê²½ ìŠ¬ë¼ì´ë”
     public Slider alpha;
-    //»çÀÌÁî º¯°æ¿ë ½½¶óÀÌ´õ
+    //ì‚¬ì´ì¦ˆ ë³€ê²½ìš© ìŠ¬ë¼ì´ë”
     public Slider size;
-    //»ö»ó º¯°æ¿ë
+    //ìƒ‰ìƒ ë³€ê²½ìš©
     public InputField colorHex;
 
-    private Vector2? previousUVPosition = null; // ÀÌÀü ÇÁ·¹ÀÓÀÇ UV ÁÂÇ¥
+    private Vector2? previousUVPosition = null; // ì´ì „ í”„ë ˆì„ì˜ UV ì¢Œí‘œ
 
     //void Start()
     void CanvasChange()
     {
-        // MaterialÀÌ ÇÒ´çµÇÁö ¾ÊÀº °æ¿ì »õ Material »ı¼º
+        // Materialì´ í• ë‹¹ë˜ì§€ ì•Šì€ ê²½ìš° ìƒˆ Material ìƒì„±
         if (materialToModify == null)
         {
-            // Universal Render PipelineÀÇ Unlit ½¦ÀÌ´õ¸¦ »ç¿ëÇÏ´Â »õ Material »ı¼º
+            // Universal Render Pipelineì˜ Unlit ì‰ì´ë”ë¥¼ ì‚¬ìš©í•˜ëŠ” ìƒˆ Material ìƒì„±
             materialToModify = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
 
-            // »õ·Î »ı¼ºÇÑ MaterialÀ» Plane¿¡ Àû¿ë
+            // ìƒˆë¡œ ìƒì„±í•œ Materialì„ Planeì— ì ìš©
             Renderer renderer = canvasPlane.GetComponent<Renderer>();
             if (renderer != null)
             {
@@ -44,21 +44,21 @@ public class RealTimeTexturePainter : MonoBehaviour
             }
         }
 
-        // Material¿¡ ÀÌ¹Ì ÅØ½ºÃ³°¡ ÀÖ´ÂÁö È®ÀÎ
+        // Materialì— ì´ë¯¸ í…ìŠ¤ì²˜ê°€ ìˆëŠ”ì§€ í™•ì¸
         if (materialToModify.mainTexture != null)
         {
-            // ±âÁ¸ ÅØ½ºÃ³°¡ ÀÖ´Â °æ¿ì ÀÌ¸¦ Texture2D·Î Ä³½ºÆÃ
+            // ê¸°ì¡´ í…ìŠ¤ì²˜ê°€ ìˆëŠ” ê²½ìš° ì´ë¥¼ Texture2Dë¡œ ìºìŠ¤íŒ…
             texture2D = materialToModify.mainTexture as Texture2D;
         }
         else
         {
-            // ÅØ½ºÃ³°¡ ¾ø´Â °æ¿ì »õ·Î »ı¼º
+            // í…ìŠ¤ì²˜ê°€ ì—†ëŠ” ê²½ìš° ìƒˆë¡œ ìƒì„±
             Vector3 planeSize = GetPlaneSizeInWorldUnits(canvasPlane);
             int textureWidth = Mathf.CeilToInt(planeSize.x * 150);
             int textureHeight = Mathf.CeilToInt(planeSize.z * 150);
             texture2D = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
 
-            // Èò»öÀ¸·Î ÅØ½ºÃ³ ÃÊ±âÈ­
+            // í°ìƒ‰ìœ¼ë¡œ í…ìŠ¤ì²˜ ì´ˆê¸°í™”
             Color[] fillColorArray = texture2D.GetPixels();
 
             for (int i = 0; i < fillColorArray.Length; ++i)
@@ -68,10 +68,10 @@ public class RealTimeTexturePainter : MonoBehaviour
             texture2D.SetPixels(fillColorArray);
             texture2D.Apply();
 
-            // Material¿¡ ÃÊ±â ÅØ½ºÃ³ Àû¿ë
+            // Materialì— ì´ˆê¸° í…ìŠ¤ì²˜ ì ìš©
             materialToModify.mainTexture = texture2D;
 
-            // Plane¿¡ MeshCollider°¡ ¾ø´Ù¸é Ãß°¡
+            // Planeì— MeshColliderê°€ ì—†ë‹¤ë©´ ì¶”ê°€
             if (canvasPlane.GetComponent<MeshCollider>() == null)
             {
                 canvasPlane.AddComponent<MeshCollider>();
@@ -97,7 +97,7 @@ public class RealTimeTexturePainter : MonoBehaviour
                         materialToModify = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
                         CanvasChange();
                     }
-                    //print("Äµ¹ö½ºÀÓ");
+                    //print("ìº”ë²„ìŠ¤ì„");
                 }
 
             }
@@ -116,7 +116,7 @@ public class RealTimeTexturePainter : MonoBehaviour
                 }
                 else
                 {
-                    // ¸¶¿ì½º¸¦ Å¬¸¯ÇÏÁö ¾Ê¾ÒÀ» °æ¿ì, ÀÌÀü À§Ä¡¸¦ ÃÊ±âÈ­
+                    // ë§ˆìš°ìŠ¤ë¥¼ í´ë¦­í•˜ì§€ ì•Šì•˜ì„ ê²½ìš°, ì´ì „ ìœ„ì¹˜ë¥¼ ì´ˆê¸°í™”
                     previousUVPosition = null;
                 }
                 break;
@@ -128,32 +128,32 @@ public class RealTimeTexturePainter : MonoBehaviour
                 }
                 else
                 {
-                    // ¸¶¿ì½º¸¦ Å¬¸¯ÇÏÁö ¾Ê¾ÒÀ» °æ¿ì, ÀÌÀü À§Ä¡¸¦ ÃÊ±âÈ­
+                    // ë§ˆìš°ìŠ¤ë¥¼ í´ë¦­í•˜ì§€ ì•Šì•˜ì„ ê²½ìš°, ì´ì „ ìœ„ì¹˜ë¥¼ ì´ˆê¸°í™”
                     previousUVPosition = null;
                 }
                 break;
         }
     }
 
-    void PaintOnTexture() // ÇÏµåÅ¸ÀÔ
+    void PaintOnTexture() // í•˜ë“œíƒ€ì…
     {
-        // ¸¶¿ì½º Æ÷ÀÎÅÍÀÇ À§Ä¡¸¦ °¡Á®¿È
+        // ë§ˆìš°ìŠ¤ í¬ì¸í„°ì˜ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜´
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        // Plane°úÀÇ Ãæµ¹ ¿©ºÎ È®ÀÎ
+        // Planeê³¼ì˜ ì¶©ëŒ ì—¬ë¶€ í™•ì¸
         if (Physics.Raycast(ray, out hit))
         {
             Vector2 currentUVPosition = hit.textureCoord;
 
             if (hit.collider.gameObject == canvasPlane)
             {
-                // ÀÌÀü UV ÁÂÇ¥°¡ ÀÖ´Ù¸é µÎ ÁÂÇ¥ »çÀÌ¸¦ Ã¤¿öÁÜ
+                // ì´ì „ UV ì¢Œí‘œê°€ ìˆë‹¤ë©´ ë‘ ì¢Œí‘œ ì‚¬ì´ë¥¼ ì±„ì›Œì¤Œ
                 if (previousUVPosition.HasValue)
                 {
                     Vector2 previousUV = previousUVPosition.Value;
                     float distance = Vector2.Distance(previousUV, currentUVPosition);
-                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // º¸°£ÇÒ ½ºÅÜ ¼ö
+                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // ë³´ê°„í•  ìŠ¤í… ìˆ˜
 
                     for (int i = 0; i <= steps; i++)
                     {
@@ -187,35 +187,35 @@ public class RealTimeTexturePainter : MonoBehaviour
                     PaintAtUV(currentUVPosition);
                 }
 
-                texture2D.Apply(); // ¼öÁ¤µÈ ÅØ½ºÃ³¸¦ Àû¿ë
-                previousUVPosition = currentUVPosition; // ÇöÀç À§Ä¡¸¦ ÀÌÀü À§Ä¡·Î ¾÷µ¥ÀÌÆ®
+                texture2D.Apply(); // ìˆ˜ì •ëœ í…ìŠ¤ì²˜ë¥¼ ì ìš©
+                previousUVPosition = currentUVPosition; // í˜„ì¬ ìœ„ì¹˜ë¥¼ ì´ì „ ìœ„ì¹˜ë¡œ ì—…ë°ì´íŠ¸
             }
         }
         else
         {
-            previousUVPosition = null; // Äµ¹ö½º¸¦ ¹ş¾î³ª¸é ÀÌÀü À§Ä¡ ÃÊ±âÈ­
+            previousUVPosition = null; // ìº”ë²„ìŠ¤ë¥¼ ë²—ì–´ë‚˜ë©´ ì´ì „ ìœ„ì¹˜ ì´ˆê¸°í™”
         }
     }
 
-    void PaintOnTexture_Airbrush() // ¿¡¾îºê·¯½¬
+    void PaintOnTexture_Airbrush() // ì—ì–´ë¸ŒëŸ¬ì‰¬
     {
-        // ¸¶¿ì½º Æ÷ÀÎÅÍÀÇ À§Ä¡¸¦ °¡Á®¿È
+        // ë§ˆìš°ìŠ¤ í¬ì¸í„°ì˜ ìœ„ì¹˜ë¥¼ ê°€ì ¸ì˜´
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        // Plane°úÀÇ Ãæµ¹ ¿©ºÎ È®ÀÎ
+        // Planeê³¼ì˜ ì¶©ëŒ ì—¬ë¶€ í™•ì¸
         if (Physics.Raycast(ray, out hit))
         {
             Vector2 currentUVPosition = hit.textureCoord;
 
             if (hit.collider.gameObject == canvasPlane)
             {
-                // ÀÌÀü UV ÁÂÇ¥°¡ ÀÖ´Ù¸é µÎ ÁÂÇ¥ »çÀÌ¸¦ Ã¤¿öÁÜ
+                // ì´ì „ UV ì¢Œí‘œê°€ ìˆë‹¤ë©´ ë‘ ì¢Œí‘œ ì‚¬ì´ë¥¼ ì±„ì›Œì¤Œ
                 if (previousUVPosition.HasValue)
                 {
                     Vector2 previousUV = previousUVPosition.Value;
                     float distance = Vector2.Distance(previousUV, currentUVPosition);
-                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // º¸°£ÇÒ ½ºÅÜ ¼ö
+                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // ë³´ê°„í•  ìŠ¤í… ìˆ˜
 
                     for (int i = 0; i <= steps; i++)
                     {
@@ -251,17 +251,17 @@ public class RealTimeTexturePainter : MonoBehaviour
                     PaintAtUV_Airbrush(currentUVPosition);
                 }
 
-                texture2D.Apply(); // ¼öÁ¤µÈ ÅØ½ºÃ³¸¦ Àû¿ë
-                previousUVPosition = currentUVPosition; // ÇöÀç À§Ä¡¸¦ ÀÌÀü À§Ä¡·Î ¾÷µ¥ÀÌÆ®
+                texture2D.Apply(); // ìˆ˜ì •ëœ í…ìŠ¤ì²˜ë¥¼ ì ìš©
+                previousUVPosition = currentUVPosition; // í˜„ì¬ ìœ„ì¹˜ë¥¼ ì´ì „ ìœ„ì¹˜ë¡œ ì—…ë°ì´íŠ¸
             }
         }
         else
         {
-            previousUVPosition = null; // Äµ¹ö½º¸¦ ¹ş¾î³ª¸é ÀÌÀü À§Ä¡ ÃÊ±âÈ­
+            previousUVPosition = null; // ìº”ë²„ìŠ¤ë¥¼ ë²—ì–´ë‚˜ë©´ ì´ì „ ìœ„ì¹˜ ì´ˆê¸°í™”
         }
     }
 
-    void PaintAtUV(Vector2 uvPosition) // ÇÏµåÅ¸ÀÔ
+    void PaintAtUV(Vector2 uvPosition) // í•˜ë“œíƒ€ì…
     {
         int texX = (int)(uvPosition.x * texture2D.width);
         int texY = (int)(uvPosition.y * texture2D.height);
@@ -287,7 +287,7 @@ public class RealTimeTexturePainter : MonoBehaviour
         }
     }
 
-    void PaintAtUV_Airbrush(Vector2 uvPosition) // ¿¡¾îºê·¯½¬¿ë
+    void PaintAtUV_Airbrush(Vector2 uvPosition) // ì—ì–´ë¸ŒëŸ¬ì‰¬ìš©
     {
         int texX = (int)(uvPosition.x * texture2D.width);
         int texY = (int)(uvPosition.y * texture2D.height);
@@ -326,8 +326,20 @@ public class RealTimeTexturePainter : MonoBehaviour
 
     public void SaveTexture()
     {
+        int numbering = 4;//ë‚˜ì¤‘ì— 1ë¡œ ë°”ê¿”ì¤˜ì•¼ë¨
+
+        // íŒŒì¼ ê²½ë¡œë¥¼ ìƒì„±
+        string filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
+
+        // ë™ì¼í•œ íŒŒì¼ì´ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸í•˜ê³ , ì¡´ì¬í•˜ë©´ numberingì„ ì¦ê°€ì‹œì¼œ ìƒˆ ê²½ë¡œë¥¼ ìƒì„±
+        while (File.Exists(filePath))
+        {
+            numbering++;
+            filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
+        }
+
+        // Texture2Dë¥¼ PNG í¬ë§·ìœ¼ë¡œ ë³€í™˜í•˜ì—¬ íŒŒì¼ë¡œ ì €ì¥
         byte[] bytes = texture2D.EncodeToPNG();
-        string filePath = Path.Combine(Application.dataPath, "SavedTexture.png");
         File.WriteAllBytes(filePath, bytes);
 
         Debug.Log($"Texture saved to {filePath}");

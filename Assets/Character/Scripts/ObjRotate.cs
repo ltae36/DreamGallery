@@ -1,10 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjRotate : MonoBehaviour
 {
-    public float rotSpeed = 200;
+    public float rotSpeed = 400;
 
     float rotX;
     float rotY;
@@ -19,17 +19,20 @@ public class ObjRotate : MonoBehaviour
 
     void Update()
     {
-        // 1. ¸¶¿ì½ºÀÇ ¿òÁ÷ÀÓÀ» ¹Ş¾Æ¿ÀÀÚ.
-        float mx = Input.GetAxis("Mouse X");
-        float my = Input.GetAxis("Mouse Y");
+        if (Input.GetMouseButton(1))
+        {
+            // 1. ë§ˆìš°ìŠ¤ì˜ ì›€ì§ì„ì„ ë°›ì•„ì˜¤ì.
+            float mx = Input.GetAxis("Mouse X");
+            float my = Input.GetAxis("Mouse Y");
 
-        // 2. È¸Àü °ªÀ» º¯°æ(´©Àû)
-        if (useRotX) rotX += my * rotSpeed * Time.deltaTime;
-        if (useRotY) rotY += mx * rotSpeed * Time.deltaTime;
+            // 2. íšŒì „ ê°’ì„ ë³€ê²½(ëˆ„ì )
+            if (useRotX) rotX += my * rotSpeed * Time.deltaTime;
+            if (useRotY) rotY += mx * rotSpeed * Time.deltaTime;
 
-        rotX = Mathf.Clamp(rotX, -80, 80);
+            rotX = Mathf.Clamp(rotX, -80, 80);
 
-        transform.localEulerAngles = new Vector3(-rotX, rotY, 0);
+            transform.localEulerAngles = new Vector3(-rotX, rotY, 0);
+        }
 
     }
 }

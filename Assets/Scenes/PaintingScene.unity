@@ -569,7 +569,7 @@ MonoBehaviour:
   materialToModify: {fileID: 0}
   paintColor: {r: 1, g: 0, b: 0, a: 1}
   brushRadius: 2
-  canvasPlane: {fileID: 1889903407}
+  canvasPlane: {fileID: 0}
   alpha: {fileID: 2004818535}
   size: {fileID: 1946132815}
   colorHex: {fileID: 1523779216}
@@ -1806,7 +1806,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1790860595}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 741510910}
+        m_TargetAssemblyTypeName: RealTimeTexturePainter, Assembly-CSharp
+        m_MethodName: SaveTexture
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1790860595
 MonoBehaviour:
   m_ObjectHideFlags: 0

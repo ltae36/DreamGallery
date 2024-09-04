@@ -57,6 +57,8 @@ public class RealTimeTexturePainter : MonoBehaviour
             int textureWidth = Mathf.CeilToInt(planeSize.x * 150);
             int textureHeight = Mathf.CeilToInt(planeSize.z * 150);
             texture2D = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
+            print((planeSize.x*100).ToString());
+            print((planeSize.z*100).ToString());
 
             // 흰색으로 텍스처 초기화
             Color[] fillColorArray = texture2D.GetPixels();
@@ -326,16 +328,16 @@ public class RealTimeTexturePainter : MonoBehaviour
 
     public void SaveTexture()
     {
-        int numbering = 4;//나중에 1로 바꿔줘야됨
+        int numbering = 1;//나중에 1로 바꿔줘야됨
 
         // 파일 경로를 생성
-        string filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
+        string filePath = Path.Combine(Application.streamingAssetsPath, "pic" + numbering.ToString() + ".png");
 
         // 동일한 파일이 존재하는지 확인하고, 존재하면 numbering을 증가시켜 새 경로를 생성
         while (File.Exists(filePath))
         {
             numbering++;
-            filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
+            filePath = Path.Combine(Application.streamingAssetsPath, "pic" + numbering.ToString() + ".png");
         }
 
         // Texture2D를 PNG 포맷으로 변환하여 파일로 저장
@@ -343,7 +345,40 @@ public class RealTimeTexturePainter : MonoBehaviour
         File.WriteAllBytes(filePath, bytes);
 
         Debug.Log($"Texture saved to {filePath}");
+        //int numbering = 1; // 저장 파일 번호
+
+        //// 파일 경로를 생성
+        //string filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
+
+        //// 동일한 파일이 존재하는지 확인하고, 존재하면 numbering을 증가시켜 새 경로를 생성
+        //while (File.Exists(filePath))
+        //{
+        //    numbering++;
+        //    filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
+        //}
+
+        //// Plane의 크기에 맞게 텍스처 크기 설정
+        //Vector3 planeSize = GetPlaneSizeInWorldUnits(canvasPlane);
+        //int textureWidth = Mathf.CeilToInt(planeSize.x * 150);
+        //int textureHeight = Mathf.CeilToInt(planeSize.z * 150);
+
+        //// 이미 만들어진 texture2D의 크기와 맞는지 확인 (생성 및 업데이트가 필요하다면 별도의 로직이 필요)
+        //if (texture2D.width != textureWidth || texture2D.height != textureHeight)
+        //{
+        //    Debug.LogWarning("Current texture resolution does not match calculated resolution. Consider regenerating the texture.");
+        //}
+
+        //// Texture2D를 PNG 포맷으로 변환하여 파일로 저장
+        //byte[] bytes = texture2D.EncodeToPNG();
+        //File.WriteAllBytes(filePath, bytes);
+
+        ////Application.streamingAssetsPath
+
+        //Debug.Log($"Texture saved to {filePath}");
+
     }
+
+    
 
     public void SizeChange()
     {

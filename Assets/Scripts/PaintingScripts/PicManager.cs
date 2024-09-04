@@ -1,31 +1,80 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class PicManager : MonoBehaviour
 {
-    // 플레이어가 그린 그림들(텍스처)을 저장해서 불러온다.
-    // ui에 차례대로 삽입해 표시된다.
+    public List<Sprite> sprites = new List<Sprite>();  // 스프라이트를 저장할 리스트
+    public List<Texture> textures = new List<Texture>(); // 텍스처를 저장할 리스트
+    public Image[] thumNails; // 선택창에 표시될 이미지
 
-    #region 배열로 넣기
-    // 그림 목록
-    public RawImage[] images;
-    public List<Texture> paintings;
-
-    private void Awake()
+    void Start()
     {
-        // 플레이하면 빈 캔버스 ui에 텍스처 배열을 집어넣는다.
-        for (int i = 0; i < images.Length; i++)
+        StartCoroutine(LoadSprites());
+    }
+
+    IEnumerator LoadSprites()
+    {
+        // StreamingAssets 경로
+        string path = Application.streamingAssetsPath;
+
+        // 해당 폴더의 모든 PNG 파일 경로 불러오기
+        string[] filePaths = Directory.GetFiles(path, "*.png");
+
+        foreach (string filePath in filePaths)
         {
-            paintings.Add(Resources.Load("pic" + i.ToString()) as Texture); // Resouces 폴더에서 그림들을 가져온다.
+            string url = "file://" + filePath; // png파일 경로를 파일명에 합치기
 
-            //paintings[i] = Resources.Load("pic" + i.ToString()) as Texture; // Resouces 폴더에서 그림들을 가져온다.
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return www.SendWebRequest();
 
-            images[i].texture = paintings[i]; // Rawimages의 텍스처에 그림들을 넣는다.
+                Texture2D texture = DownloadHandlerTexture.GetContent(www);
 
-            images[i].SetNativeSize(); // 그림 텍스처 크기에 Rawimage 크기를 맞춘다.
+                textures.Add(texture); // 텍스처 리스트에 추가
+
+                Sprite sprite = TextureToSprite(texture);
+                sprites.Add(sprite);  // 스프라이트 리스트에 추가
+
+                // 이미지 썸네일에 스프라이트를 추가한다.
+                for (int i = 0; i < sprites.Count - 1; i++)
+                {
+                    thumNails[i].sprite = sprites[i];
+
+                    // 사이즈를 이미지 사이즈로 맞춘다.
+                    thumNails[i].SetNativeSize();
+                }
+                #region www에러코드
+                //if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+                //{
+                //    Debug.LogError("Failed to load texture: " + www.error);
+                //}
+                //else
+                //{
+                //    Texture2D texture = DownloadHandlerTexture.GetContent(www); 
+                //    Sprite sprite = TextureToSprite(texture);
+                //    sprites.Add(sprite);  // 스프라이트 리스트에 추가
+
+                //    // 이미지 썸네일에 스프라이트를 추가한다.
+                //    for (int i = 0; i < sprites.Count - 1; i++)
+                //    {
+                //        thumNails[i].sprite = sprites[i];
+
+                //        // 사이즈를 이미지 사이즈로 맞춘다.
+                //        thumNails[i].SetNativeSize();
+                //    }
+                //}
+                #endregion
+            }
         }
     }
-    #endregion
+
+    // Texture2D를 Sprite로 변환하는 헬퍼 함수
+    private Sprite TextureToSprite(Texture2D texture)
+    {
+        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+    }   
 }

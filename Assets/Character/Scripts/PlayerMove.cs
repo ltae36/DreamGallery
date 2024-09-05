@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     // 캐릭터 컨트롤러
-    CharacterController cc;
+    public CharacterController cc;
     // 이동 속력
     public float moveSpeed = 5.0f;
     // 중력
@@ -74,5 +74,6 @@ public class PlayerMove : MonoBehaviour
     public void EnterTheRoom()
     {
         anim.SetTrigger("Enter");
+        
     }
 }

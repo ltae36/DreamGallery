@@ -1,19 +1,19 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    // Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯
+    // ìºë¦­í„° ì»¨íŠ¸ë¡¤ëŸ¬
     CharacterController cc;
-    // ÀÌµ¿ ¼Ó·Â
+    // ì´ë™ ì†ë ¥
     public float moveSpeed = 5.0f;
-    // Áß·Â
+    // ì¤‘ë ¥
     float gravity = -9.8f;
-    // y ¼Ó·Â
+    // y ì†ë ¥
     float yVelocity;
-    // Á¡ÇÁ ÃÊ±â ¼Ó·Â
+    // ì í”„ ì´ˆê¸° ì†ë ¥
     public float jumpPower = 3;
 
     public GameObject cam;
@@ -65,10 +65,14 @@ public class PlayerMove : MonoBehaviour
 
         cc.Move(dir * moveSpeed * Time.deltaTime);
 
-        // animÀ» ÀÌ¿ëÇØ¼­ h, v °ªÀ» Àü´Ş
+        // animì„ ì´ìš©í•´ì„œ h, v ê°’ì„ ì „ë‹¬
         anim.SetFloat("DirH", h);
         anim.SetFloat("DirV", v);
+                
+    }
 
-        
-    }   
+    public void EnterTheRoom()
+    {
+        anim.SetTrigger("Enter");
+    }
 }

@@ -37,7 +37,8 @@ public class StageMove : MonoBehaviour
         move.enabled = false;
 
         StartCoroutine(LoadSceneTime(5f));
-
+        //player.GetComponent<PlayerMove>().EnterTheRoom();
+        move.EnterTheRoom();
     }
 
     IEnumerator LoadSceneTime(float sec) 

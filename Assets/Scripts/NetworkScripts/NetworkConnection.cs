@@ -4,12 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEditor.XR;
 
 public class NetworkConnection : MonoBehaviour
 {
     // 갤러리에서 온라인 모드를 켜면 방이 열리고 초대할 수 있음
     // 방은 자동으로 생성되고 보이게 할 지, 초대 할 지를 플레이어가 컨트롤
-
+    string enteredPassword = "사용자가 입력한 비밀번호"; // 사용자가 입력한 비밀번호를 저장하는 변수
 
     void Start()
     {
@@ -20,11 +21,6 @@ public class NetworkConnection : MonoBehaviour
     void Update()
     {
 
-    }
-
-    public override void OnConnectedToMaster() 
-    {
-        Debug.Log("Connected to Photon Master Server");
     }
 
     public void CreateRoom(string roomName, string password) 
@@ -38,6 +34,47 @@ public class NetworkConnection : MonoBehaviour
 
         PhotonNetwork.CreateRoom(roomName, roomOpt);
     }
+    public void JoinRoomWithPassword(string roomName, string enteredPassword)
+    {
+        // 방 정보를 찾기 위한 사용자 정의 룸 속성 검색
+        PhotonNetwork.JoinRoom(roomName);
+    }
+
+    public void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.LogError("Failed to join room: " + message);
+    }
+
+    public void OnJoinRoom() 
+    {
+        print("성공적으로 방에 입장하였습니다!");
+
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("Password")) 
+        {
+            string roomPassword = PhotonNetwork.CurrentRoom.CustomProperties["Password"].ToString();
+            if(enteredPassword != roomPassword) 
+            {
+                print("비밀번호가 틀렸습니다!");
+                PhotonNetwork.LeaveRoom(); // 잘못된 번호 입력 시 방을 나감
+            }
+            else 
+            {
+                print("입장을 환영합니다!");
+            }
+        }
+    }
+
+    public void CreatePersistentRoom(string roomName, string password) 
+    {
+        RoomOptions roomOpt = new RoomOptions();
+        roomOpt.IsVisible = false;
+        roomOpt.IsOpen = true;
+        roomOpt.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "Password", password } };
+        roomOpt.CustomRoomPropertiesForLobby = new string[] { "Password" };
+        roomOpt.EmptyRoomTtl = 0; // 방이 비어 있어도 제거되지 않음
+        roomOpt.PlayerTtl = -1; // 플레이어가 나가더라도 데이터 유지
+    }
+
 
     /*// 마스터 서버에 접속이 되면 호출되는 함수
     public override void OnConnectedToMaster()

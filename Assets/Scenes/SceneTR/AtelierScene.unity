@@ -3215,6 +3215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paintingView: {fileID: 1210493240}
   globalView: {fileID: 1801168911}
+  paintingTool: {fileID: 1248621445}
   paintingMode: {fileID: 1077328128}
   transitionSpeed: 2
 --- !u!1 &1801168911

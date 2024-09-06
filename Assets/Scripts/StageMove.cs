@@ -53,6 +53,6 @@ public class StageMove : MonoBehaviour
     {
         yield return new WaitForSeconds(sec);
         // 씬이 이동됨
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("AtelierScene");
     }
 }

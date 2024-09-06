@@ -7,6 +7,7 @@ public class PaintingMode : MonoBehaviour
     // 캔버스 클릭하면 페인팅 화면 전환
     public GameObject paintingView;
     public GameObject globalView;
+    public GameObject paintingTool;
     public Transform paintingMode;
 
     private bool shouldTransition = false;
@@ -53,6 +54,7 @@ public class PaintingMode : MonoBehaviour
             {
                 paintingView.SetActive(true);
                 shouldTransition = true; // 전환을 시작하도록 플래그 설정
+                paintingTool.SetActive(true);
             }
         }
     }

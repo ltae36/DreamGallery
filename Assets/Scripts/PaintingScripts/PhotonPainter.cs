@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class RealTimeTexturePainter : MonoBehaviourPun
+public class PhotonPainter : MonoBehaviourPun
 {
     public enum BrushStyle
     {
@@ -13,32 +13,23 @@ public class RealTimeTexturePainter : MonoBehaviourPun
     }
 
     public BrushStyle brush;
+    public Material materialToModify;
+    private Texture2D texture2D;
+    public Color paintColor = Color.red;
+    public int brushRadius = 2;
+    public GameObject canvasPlane;
 
-    public Material materialToModify;    // 수정할 material
-    private Texture2D texture2D;         // 텍스처를 저장할 Texture2D
-    public Color paintColor = Color.red; // 페인트 색상 설정
-    public int brushRadius = 2;          // 브러시의 반경 (픽셀)
-    public GameObject canvasPlane;       // 페인팅할 Plane 오브젝트
-
-    //알파 변경 슬라이더
     public Slider alpha;
-    //사이즈 변경용 슬라이더
     public Slider size;
-    //색상 변경용
     public InputField colorHex;
 
-    private Vector2? previousUVPosition = null; // 이전 프레임의 UV 좌표
+    private Vector2? previousUVPosition = null;
 
-    //void Start()
     void CanvasChange()
     {
-        // Material이 할당되지 않은 경우 새 Material 생성
         if (materialToModify == null)
         {
-            // Universal Render Pipeline의 Unlit 쉐이더를 사용하는 새 Material 생성
             materialToModify = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-
-            // 새로 생성한 Material을 Plane에 적용
             Renderer renderer = canvasPlane.GetComponent<Renderer>();
             if (renderer != null)
             {
@@ -46,25 +37,18 @@ public class RealTimeTexturePainter : MonoBehaviourPun
             }
         }
 
-        // Material에 이미 텍스처가 있는지 확인
         if (materialToModify.mainTexture != null)
         {
-            // 기존 텍스처가 있는 경우 이를 Texture2D로 캐스팅
             texture2D = materialToModify.mainTexture as Texture2D;
         }
         else
         {
-            // 텍스처가 없는 경우 새로 생성
             Vector3 planeSize = GetPlaneSizeInWorldUnits(canvasPlane);
             int textureWidth = Mathf.CeilToInt(planeSize.x * 150);
             int textureHeight = Mathf.CeilToInt(planeSize.z * 150);
             texture2D = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
-            print((planeSize.x*100).ToString());
-            print((planeSize.z*100).ToString());
 
-            // 흰색으로 텍스처 초기화
             Color[] fillColorArray = texture2D.GetPixels();
-
             for (int i = 0; i < fillColorArray.Length; ++i)
             {
                 fillColorArray[i] = Color.white;
@@ -72,10 +56,8 @@ public class RealTimeTexturePainter : MonoBehaviourPun
             texture2D.SetPixels(fillColorArray);
             texture2D.Apply();
 
-            // Material에 초기 텍스처 적용
             materialToModify.mainTexture = texture2D;
 
-            // Plane에 MeshCollider가 없다면 추가
             if (canvasPlane.GetComponent<MeshCollider>() == null)
             {
                 canvasPlane.AddComponent<MeshCollider>();
@@ -87,7 +69,6 @@ public class RealTimeTexturePainter : MonoBehaviourPun
     {
         if (Input.GetMouseButtonDown(1))
         {
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -101,12 +82,9 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                         materialToModify = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
                         CanvasChange();
                     }
-                    //print("캔버스임");
                 }
-
             }
         }
-
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) brush = BrushStyle.HardType;
         if (Input.GetKeyDown(KeyCode.Alpha2)) brush = BrushStyle.Airbrush;
@@ -120,7 +98,6 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                 }
                 else
                 {
-                    // 마우스를 클릭하지 않았을 경우, 이전 위치를 초기화
                     previousUVPosition = null;
                 }
                 break;
@@ -132,32 +109,28 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                 }
                 else
                 {
-                    // 마우스를 클릭하지 않았을 경우, 이전 위치를 초기화
                     previousUVPosition = null;
                 }
                 break;
         }
     }
 
-    void PaintOnTexture() // 하드타입
+    void PaintOnTexture()
     {
-        // 마우스 포인터의 위치를 가져옴
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        // Plane과의 충돌 여부 확인
         if (Physics.Raycast(ray, out hit))
         {
             Vector2 currentUVPosition = hit.textureCoord;
 
             if (hit.collider.gameObject == canvasPlane)
             {
-                // 이전 UV 좌표가 있다면 두 좌표 사이를 채워줌
                 if (previousUVPosition.HasValue)
                 {
                     Vector2 previousUV = previousUVPosition.Value;
                     float distance = Vector2.Distance(previousUV, currentUVPosition);
-                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // 보간할 스텝 수
+                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10;
 
                     for (int i = 0; i <= steps; i++)
                     {
@@ -191,35 +164,33 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                     PaintAtUV(currentUVPosition);
                 }
 
-                texture2D.Apply(); // 수정된 텍스처를 적용
-                previousUVPosition = currentUVPosition; // 현재 위치를 이전 위치로 업데이트
+                texture2D.Apply(); // 텍스처 변경 적용
+                SendTextureToOthers(); // 텍스처 변경을 네트워크로 전송
+                previousUVPosition = currentUVPosition;
             }
         }
         else
         {
-            previousUVPosition = null; // 캔버스를 벗어나면 이전 위치 초기화
+            previousUVPosition = null;
         }
     }
 
-    void PaintOnTexture_Airbrush() // 에어브러쉬
+    void PaintOnTexture_Airbrush()
     {
-        // 마우스 포인터의 위치를 가져옴
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        // Plane과의 충돌 여부 확인
         if (Physics.Raycast(ray, out hit))
         {
             Vector2 currentUVPosition = hit.textureCoord;
 
             if (hit.collider.gameObject == canvasPlane)
             {
-                // 이전 UV 좌표가 있다면 두 좌표 사이를 채워줌
                 if (previousUVPosition.HasValue)
                 {
                     Vector2 previousUV = previousUVPosition.Value;
                     float distance = Vector2.Distance(previousUV, currentUVPosition);
-                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // 보간할 스텝 수
+                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10;
 
                     for (int i = 0; i <= steps; i++)
                     {
@@ -255,17 +226,18 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                     PaintAtUV_Airbrush(currentUVPosition);
                 }
 
-                texture2D.Apply(); // 수정된 텍스처를 적용
-                previousUVPosition = currentUVPosition; // 현재 위치를 이전 위치로 업데이트
+                texture2D.Apply(); // 텍스처 변경 적용
+                SendTextureToOthers(); // 텍스처 변경을 네트워크로 전송
+                previousUVPosition = currentUVPosition;
             }
         }
         else
         {
-            previousUVPosition = null; // 캔버스를 벗어나면 이전 위치 초기화
+            previousUVPosition = null;
         }
     }
 
-    void PaintAtUV(Vector2 uvPosition) // 하드타입
+    void PaintAtUV(Vector2 uvPosition)
     {
         int texX = (int)(uvPosition.x * texture2D.width);
         int texY = (int)(uvPosition.y * texture2D.height);
@@ -291,7 +263,7 @@ public class RealTimeTexturePainter : MonoBehaviourPun
         }
     }
 
-    void PaintAtUV_Airbrush(Vector2 uvPosition) // 에어브러쉬용
+    void PaintAtUV_Airbrush(Vector2 uvPosition)
     {
         int texX = (int)(uvPosition.x * texture2D.width);
         int texY = (int)(uvPosition.y * texture2D.height);
@@ -319,9 +291,24 @@ public class RealTimeTexturePainter : MonoBehaviourPun
         }
     }
 
+    public void SendTextureToOthers()
+    {
+        byte[] textureData = texture2D.EncodeToPNG();
+        photonView.RPC(nameof(RPC_ReceiveTexture), RpcTarget.All, textureData);
+    }
 
-    
+    [PunRPC]
+    public void RPC_ReceiveTexture(byte[] textureData)
+    {
+        Debug.Log("Received texture data");
 
+        Texture2D receivedTexture = new Texture2D(texture2D.width, texture2D.height);
+        receivedTexture.LoadImage(textureData);
+        receivedTexture.Apply();
+
+        texture2D = receivedTexture;
+        GetComponent<Renderer>().material.mainTexture = texture2D;
+    }
 
     public void ColorChange()
     {
@@ -334,57 +321,21 @@ public class RealTimeTexturePainter : MonoBehaviourPun
 
     public void SaveTexture()
     {
-        int numbering = 1;//나중에 1로 바꿔줘야됨
+        int numbering = 1;
 
-        // 파일 경로를 생성
         string filePath = Path.Combine(Application.streamingAssetsPath, "pic" + numbering.ToString() + ".png");
 
-        // 동일한 파일이 존재하는지 확인하고, 존재하면 numbering을 증가시켜 새 경로를 생성
         while (File.Exists(filePath))
         {
             numbering++;
             filePath = Path.Combine(Application.streamingAssetsPath, "pic" + numbering.ToString() + ".png");
         }
 
-        // Texture2D를 PNG 포맷으로 변환하여 파일로 저장
         byte[] bytes = texture2D.EncodeToPNG();
         File.WriteAllBytes(filePath, bytes);
 
         Debug.Log($"Texture saved to {filePath}");
-        //int numbering = 1; // 저장 파일 번호
-
-        //// 파일 경로를 생성
-        //string filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
-
-        //// 동일한 파일이 존재하는지 확인하고, 존재하면 numbering을 증가시켜 새 경로를 생성
-        //while (File.Exists(filePath))
-        //{
-        //    numbering++;
-        //    filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
-        //}
-
-        //// Plane의 크기에 맞게 텍스처 크기 설정
-        //Vector3 planeSize = GetPlaneSizeInWorldUnits(canvasPlane);
-        //int textureWidth = Mathf.CeilToInt(planeSize.x * 150);
-        //int textureHeight = Mathf.CeilToInt(planeSize.z * 150);
-
-        //// 이미 만들어진 texture2D의 크기와 맞는지 확인 (생성 및 업데이트가 필요하다면 별도의 로직이 필요)
-        //if (texture2D.width != textureWidth || texture2D.height != textureHeight)
-        //{
-        //    Debug.LogWarning("Current texture resolution does not match calculated resolution. Consider regenerating the texture.");
-        //}
-
-        //// Texture2D를 PNG 포맷으로 변환하여 파일로 저장
-        //byte[] bytes = texture2D.EncodeToPNG();
-        //File.WriteAllBytes(filePath, bytes);
-
-        ////Application.streamingAssetsPath
-
-        //Debug.Log($"Texture saved to {filePath}");
-
     }
-
-    
 
     public void SizeChange()
     {

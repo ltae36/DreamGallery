@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Realtime;
+using UnityEngine.TextCore.Text;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {

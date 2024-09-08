@@ -10,8 +10,11 @@ public class CharSyncro : MonoBehaviourPun
     // 캐릭터 생성 위치
     public Transform startPos;
 
+
+
     void Start()
     {
         PhotonNetwork.Instantiate("Player", startPos.position, Quaternion.identity);
+
     }
 }

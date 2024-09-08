@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BottonManager : MonoBehaviour
+public class ButtonManager : MonoBehaviour
 {
     // 생성할 액자
     public GameObject frame;

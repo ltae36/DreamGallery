@@ -81,6 +81,5 @@ public class PlayerMoveMulti : MonoBehaviourPun
     public void EnterTheRoom()
     {
         anim.SetTrigger("Enter");
-
     }
 }

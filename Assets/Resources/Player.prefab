@@ -259,7 +259,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4300408273478737074}
-  - component: {fileID: 7223124859070225971}
+  - component: {fileID: 4295402128375213512}
   m_Layer: 0
   m_Name: CamPos
   m_TagString: Untagged
@@ -283,7 +283,7 @@ Transform:
   - {fileID: 7258884438948604754}
   m_Father: {fileID: 4064106049435028247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7223124859070225971
+--- !u!114 &4295402128375213512
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,12 +292,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1956495103026282249}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f31b6073d661f46866582c4faaa40a, type: 3}
+  m_Script: {fileID: 11500000, guid: cf50f4c054bd66f478b533891f4ef74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 200
+  rotSpeed: 400
   useRotX: 1
   useRotY: 0
+  pv: {fileID: 6572539305173740139}
 --- !u!1 &2412914052225479227
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,9 +310,10 @@ GameObject:
   - component: {fileID: 4064106049435028247}
   - component: {fileID: 2021311812521668274}
   - component: {fileID: 5032083988215497038}
-  - component: {fileID: 5218102999939844233}
+  - component: {fileID: 2271995563939914721}
   - component: {fileID: 2628693026105405745}
   - component: {fileID: 122878735250500647}
+  - component: {fileID: 570358428013180370}
   - component: {fileID: 6572539305173740139}
   - component: {fileID: 7095782780426355883}
   m_Layer: 0
@@ -383,7 +385,7 @@ MonoBehaviour:
   jumpPower: 3
   cam: {fileID: 7655431978179031915}
   nick: {fileID: 4470647333915913809}
---- !u!114 &5218102999939844233
+--- !u!114 &2271995563939914721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -392,12 +394,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2412914052225479227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f31b6073d661f46866582c4faaa40a, type: 3}
+  m_Script: {fileID: 11500000, guid: cf50f4c054bd66f478b533891f4ef74f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotSpeed: 200
+  rotSpeed: 400
   useRotX: 0
   useRotY: 1
+  pv: {fileID: 6572539305173740139}
 --- !u!95 &2628693026105405745
 Animator:
   serializedVersion: 5
@@ -435,6 +438,19 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 501616a3e9b2cfc43832027479f02def, type: 2}
   - {fileID: 2100000, guid: 0f800493e2ec3e34f81f49d72dbcf7c3, type: 2}
   - {fileID: 2100000, guid: 4efd84bb1a33bab4ca23b53fe911efee, type: 2}
+--- !u!114 &570358428013180370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412914052225479227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3dbf63b95acb3a46928c6ce9c18bf9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 7655431978179031915}
 --- !u!114 &6572539305173740139
 MonoBehaviour:
   m_ObjectHideFlags: 0

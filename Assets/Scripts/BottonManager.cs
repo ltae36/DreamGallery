@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,33 +6,42 @@ using UnityEngine.UI;
 
 public class BottonManager : MonoBehaviour
 {
-    // »ı¼ºÇÒ ¾×ÀÚ
+    // ìƒì„±í•  ì•¡ì
     public GameObject frame;
-
     public RaycastClickManager rcm;
+    public PicManager pm;
 
     MeshRenderer mr;
     //public RawImage[] images;
-    public Texture tex;
+    
     GameObject clickObject;
     RawImage image;
+    Texture tex;
 
     void Start()
     {
         mr = frame.GetComponent<MeshRenderer>();
+        
     }
 
     public void ClickBotton()
     {
-        clickObject = EventSystem.current.currentSelectedGameObject; // Å¬¸¯ÇÑ ±×¸² ¿ÀºêÁ§Æ®¸¦ ÀúÀå
-        image = clickObject.GetComponent<RawImage>();
-        tex = image.mainTexture;
-        print(tex.name);
+        // í´ë¦­í•œ ì˜¤ë¸Œì íŠ¸ì˜ ì¸ë±ìŠ¤ì˜ ë²ˆí˜¸ë¥¼ ì €ì¥í•˜ì—¬ í•´ë‹¹í•˜ëŠ” ë²ˆí˜¸ì˜ í…ìŠ¤ì²˜ë¥¼ ì €ì¥í•˜ì—¬ ê°€ì ¸ì˜¨ë‹¤.
+        string selectIndex = EventSystem.current.currentSelectedGameObject.name;
+        int index = int.Parse(selectIndex);
+        print(index);
+        tex = pm.textures[index];
+        
 
-        // ÇØ´çÇÏ´Â ÀÚ¸®¿¡ ¾×ÀÚ¸¦ »ı¼ºÇÑ´Ù.
+        //clickObject = EventSystem.current.currentSelectedGameObject; // í´ë¦­í•œ ê·¸ë¦¼ ì˜¤ë¸Œì íŠ¸ë¥¼ ì €ì¥
+        //image = clickObject.GetComponent<RawImage>();
+        //tex = image.mainTexture;
+        //print(tex.name);
+
+        // í•´ë‹¹í•˜ëŠ” ìë¦¬ì— ì•¡ìë¥¼ ìƒì„±í•œë‹¤.
         GameObject art = Instantiate(frame, rcm.blankFrame);
 
-        // ¾×ÀÚ¿¡ ¼±ÅÃÇÑ ±×¸²À» ³Ö´Â´Ù.
+        // ì•¡ìì— ì„ íƒí•œ ê·¸ë¦¼ì„ ë„£ëŠ”ë‹¤.
         MeshRenderer mr = art.GetComponent<MeshRenderer>();
         mr.material.mainTexture = tex;
 

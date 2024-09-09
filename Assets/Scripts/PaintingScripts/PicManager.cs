@@ -1,31 +1,80 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class PicManager : MonoBehaviour
 {
-    // ÇÃ·¹ÀÌ¾î°¡ ±×¸° ±×¸²µé(ÅØ½ºÃ³)À» ÀúÀåÇØ¼­ ºÒ·¯¿Â´Ù.
-    // ui¿¡ Â÷·Ê´ë·Î »ğÀÔÇØ Ç¥½ÃµÈ´Ù.
+    public List<Sprite> sprites = new List<Sprite>();  // ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
+    public List<Texture> textures = new List<Texture>(); // í…ìŠ¤ì²˜ë¥¼ ì €ì¥í•  ë¦¬ìŠ¤íŠ¸
+    public Image[] thumNails; // ì„ íƒì°½ì— í‘œì‹œë  ì´ë¯¸ì§€
 
-    #region ¹è¿­·Î ³Ö±â
-    // ±×¸² ¸ñ·Ï
-    public RawImage[] images;
-    public List<Texture> paintings;
-
-    private void Awake()
+    void Start()
     {
-        // ÇÃ·¹ÀÌÇÏ¸é ºó Äµ¹ö½º ui¿¡ ÅØ½ºÃ³ ¹è¿­À» Áı¾î³Ö´Â´Ù.
-        for (int i = 0; i < images.Length; i++)
+        StartCoroutine(LoadSprites());
+    }
+
+    IEnumerator LoadSprites()
+    {
+        // StreamingAssets ê²½ë¡œ
+        string path = Application.streamingAssetsPath;
+
+        // í•´ë‹¹ í´ë”ì˜ ëª¨ë“  PNG íŒŒì¼ ê²½ë¡œ ë¶ˆëŸ¬ì˜¤ê¸°
+        string[] filePaths = Directory.GetFiles(path, "*.png");
+
+        foreach (string filePath in filePaths)
         {
-            paintings.Add(Resources.Load("pic" + i.ToString()) as Texture); // Resouces Æú´õ¿¡¼­ ±×¸²µéÀ» °¡Á®¿Â´Ù.
+            string url = "file://" + filePath; // pngíŒŒì¼ ê²½ë¡œë¥¼ íŒŒì¼ëª…ì— í•©ì¹˜ê¸°
 
-            //paintings[i] = Resources.Load("pic" + i.ToString()) as Texture; // Resouces Æú´õ¿¡¼­ ±×¸²µéÀ» °¡Á®¿Â´Ù.
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+            {
+                yield return www.SendWebRequest();
 
-            images[i].texture = paintings[i]; // RawimagesÀÇ ÅØ½ºÃ³¿¡ ±×¸²µéÀ» ³Ö´Â´Ù.
+                Texture2D texture = DownloadHandlerTexture.GetContent(www);
 
-            images[i].SetNativeSize(); // ±×¸² ÅØ½ºÃ³ Å©±â¿¡ Rawimage Å©±â¸¦ ¸ÂÃá´Ù.
+                textures.Add(texture); // í…ìŠ¤ì²˜ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+
+                Sprite sprite = TextureToSprite(texture);
+                sprites.Add(sprite);  // ìŠ¤í”„ë¼ì´íŠ¸ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+
+                // ì´ë¯¸ì§€ ì¸ë„¤ì¼ì— ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì¶”ê°€í•œë‹¤.
+                for (int i = 0; i < sprites.Count - 1; i++)
+                {
+                    thumNails[i].sprite = sprites[i];
+
+                    // ì‚¬ì´ì¦ˆë¥¼ ì´ë¯¸ì§€ ì‚¬ì´ì¦ˆë¡œ ë§ì¶˜ë‹¤.
+                    thumNails[i].SetNativeSize();
+                }
+                #region wwwì—ëŸ¬ì½”ë“œ
+                //if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+                //{
+                //    Debug.LogError("Failed to load texture: " + www.error);
+                //}
+                //else
+                //{
+                //    Texture2D texture = DownloadHandlerTexture.GetContent(www); 
+                //    Sprite sprite = TextureToSprite(texture);
+                //    sprites.Add(sprite);  // ìŠ¤í”„ë¼ì´íŠ¸ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€
+
+                //    // ì´ë¯¸ì§€ ì¸ë„¤ì¼ì— ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì¶”ê°€í•œë‹¤.
+                //    for (int i = 0; i < sprites.Count - 1; i++)
+                //    {
+                //        thumNails[i].sprite = sprites[i];
+
+                //        // ì‚¬ì´ì¦ˆë¥¼ ì´ë¯¸ì§€ ì‚¬ì´ì¦ˆë¡œ ë§ì¶˜ë‹¤.
+                //        thumNails[i].SetNativeSize();
+                //    }
+                //}
+                #endregion
+            }
         }
     }
-    #endregion
+
+    // Texture2Dë¥¼ Spriteë¡œ ë³€í™˜í•˜ëŠ” í—¬í¼ í•¨ìˆ˜
+    private Sprite TextureToSprite(Texture2D texture)
+    {
+        return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+    }   
 }

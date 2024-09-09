@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,13 +13,15 @@ public class ObjRotate : MonoBehaviour
     public bool useRotX;
     public bool useRotY;
 
+
     void Start()
     {
-        
+
     }
 
     void Update()
     {
+
         if (Input.GetMouseButton(1))
         {
             // 1. 마우스의 움직임을 받아오자.

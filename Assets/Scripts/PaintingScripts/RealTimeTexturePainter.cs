@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+﻿using JetBrains.Annotations;
+using Photon.Pun;
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -14,11 +16,25 @@ public class RealTimeTexturePainter : MonoBehaviourPun
 
     public BrushStyle brush;
 
+    public bool canPaint = true;
+
+    public int paintCount = 0;
+    public int questionStartcount = 500;
+
+    public GameObject paintingPlane;
+
+    public Text userInput;
+
+    public GameObject ChatUI;
+    public Text question;
+
     public Material materialToModify;    // 수정할 material
     private Texture2D texture2D;         // 텍스처를 저장할 Texture2D
     public Color paintColor = Color.red; // 페인트 색상 설정
     public int brushRadius = 2;          // 브러시의 반경 (픽셀)
     public GameObject canvasPlane;       // 페인팅할 Plane 오브젝트
+
+    public int resolution = 10;
 
     //알파 변경 슬라이더
     public Slider alpha;
@@ -46,6 +62,7 @@ public class RealTimeTexturePainter : MonoBehaviourPun
             }
         }
 
+       
         // Material에 이미 텍스처가 있는지 확인
         if (materialToModify.mainTexture != null)
         {
@@ -56,8 +73,8 @@ public class RealTimeTexturePainter : MonoBehaviourPun
         {
             // 텍스처가 없는 경우 새로 생성
             Vector3 planeSize = GetPlaneSizeInWorldUnits(canvasPlane);
-            int textureWidth = Mathf.CeilToInt(planeSize.x * 150);
-            int textureHeight = Mathf.CeilToInt(planeSize.z * 150);
+            int textureWidth = Mathf.CeilToInt(planeSize.x * resolution);
+            int textureHeight = Mathf.CeilToInt(planeSize.z * resolution);
             texture2D = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
             print((planeSize.x*100).ToString());
             print((planeSize.z*100).ToString());
@@ -83,7 +100,12 @@ public class RealTimeTexturePainter : MonoBehaviourPun
         }
     }
 
-    void Update()
+    public void ResetUserInputText()
+    {
+        userInput.text = "";
+    }
+
+    private void Update()
     {
         if (Input.GetMouseButtonDown(1))
         {
@@ -95,6 +117,7 @@ public class RealTimeTexturePainter : MonoBehaviourPun
             {
                 if (hit.transform.CompareTag("Plane"))
                 {
+                    paintingPlane = hit.transform.gameObject;
                     if (hit.transform.gameObject != canvasPlane)
                     {
                         canvasPlane = hit.transform.gameObject;
@@ -106,6 +129,29 @@ public class RealTimeTexturePainter : MonoBehaviourPun
 
             }
         }
+    }
+    void FixedUpdate()
+    {
+        if (paintCount >= questionStartcount)
+        {
+            Question1();
+        }
+
+        if (ChatUI.activeInHierarchy)
+        {
+            canPaint = false;
+        }
+        else
+        {
+            canPaint = true;
+        }
+
+        if (!canPaint)
+        {
+            return;
+        }
+
+       
 
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) brush = BrushStyle.HardType;
@@ -137,6 +183,14 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                 }
                 break;
         }
+    }
+
+    private void Question1()
+    {
+        
+        ChatUI.SetActive(true);
+        question.text = "어떤 그림을 그리고 계신가요? 얼마나 진행됐나요?";
+
     }
 
     void PaintOnTexture() // 하드타입
@@ -189,9 +243,14 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                 else
                 {
                     PaintAtUV(currentUVPosition);
+                    paintingPlane.GetComponent<PlaneScript>().paintedCount++;
+
                 }
 
                 texture2D.Apply(); // 수정된 텍스처를 적용
+                paintingPlane.GetComponent<PlaneScript>().paintedCount++;
+
+
                 previousUVPosition = currentUVPosition; // 현재 위치를 이전 위치로 업데이트
             }
         }
@@ -253,9 +312,15 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                 else
                 {
                     PaintAtUV_Airbrush(currentUVPosition);
+                    paintingPlane.GetComponent<PlaneScript>().paintedCount++;
+
+
                 }
 
                 texture2D.Apply(); // 수정된 텍스처를 적용
+                paintingPlane.GetComponent<PlaneScript>().paintedCount++;
+
+
                 previousUVPosition = currentUVPosition; // 현재 위치를 이전 위치로 업데이트
             }
         }

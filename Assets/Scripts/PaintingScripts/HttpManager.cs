@@ -55,6 +55,7 @@ public class HttpManager : MonoBehaviour
             // 서버로부터 받은 응답 데이터를 텍스트로 변환하여 출력
             string response = request.downloadHandler.text;
 
+            Debug.Log("서버 응답: " + response); // 응답 데이터 확인
             ReceiveData receiveData = JsonUtility.FromJson<ReceiveData>(response);
             result_text.text = receiveData.result;
         
@@ -65,7 +66,6 @@ public class HttpManager : MonoBehaviour
             Debug.LogError("Error: " + request.error);
             result_text.text = "Error: " + request.error;
         }
-        userInput.text = "";
         postButton.interactable = true;
        // loading.SetActive(false);
     }

@@ -7,15 +7,19 @@ using UnityEngine.UI;
 
 public class PicManager : MonoBehaviour
 {
-    public List<Sprite> sprites = new List<Sprite>();  // 스프라이트를 저장할 리스트
     public List<Texture> textures = new List<Texture>(); // 텍스처를 저장할 리스트
+    public List<Sprite> sprites = new List<Sprite>();  // 스프라이트를 저장할 리스트    
     public Image[] thumNails; // 선택창에 표시될 이미지
+
+    // 저장 버튼을 누르면 그림 목록을 다시 불러온다.
 
     void Start()
     {
         StartCoroutine(LoadSprites());
     }
 
+
+    // 게임이 시작하면 StreamingAsset 폴더에서 이미지 파일들을 가져온다.
     IEnumerator LoadSprites()
     {
         // StreamingAssets 경로

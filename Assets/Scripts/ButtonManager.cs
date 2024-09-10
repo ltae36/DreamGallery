@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class ButtonManager : MonoBehaviour
 {
     // 생성할 액자
-    public GameObject frame;
+    public GameObject planeW;
+    public GameObject planeH;
     public RaycastClickManager rcm;
     public PicManager pm;
 
@@ -20,7 +21,8 @@ public class ButtonManager : MonoBehaviour
 
     void Start()
     {
-        mr = frame.GetComponent<MeshRenderer>();
+        mr = planeW.GetComponentInChildren<MeshRenderer>();
+        mr = planeH.GetComponentInChildren<MeshRenderer>();
         
     }
 
@@ -31,7 +33,6 @@ public class ButtonManager : MonoBehaviour
         int index = int.Parse(selectIndex);
         print(index);
         tex = pm.textures[index];
-        
 
         //clickObject = EventSystem.current.currentSelectedGameObject; // 클릭한 그림 오브젝트를 저장
         //image = clickObject.GetComponent<RawImage>();
@@ -39,10 +40,18 @@ public class ButtonManager : MonoBehaviour
         //print(tex.name);
 
         // 해당하는 자리에 액자를 생성한다.
-        GameObject art = Instantiate(frame, rcm.blankFrame);
+        GameObject art;
+        if (rcm.checkWH) // 가로 액자를 선택했을 경우
+        {
+            art = Instantiate(planeW, rcm.blankFrame);
+        }
+        else // 세로 액자를 선택했을 경우
+        {
+            art = Instantiate(planeH, rcm.blankFrame);
+        }
 
         // 액자에 선택한 그림을 넣는다.
-        MeshRenderer mr = art.GetComponent<MeshRenderer>();
+        MeshRenderer mr = art.GetComponentInChildren<MeshRenderer>();
         mr.material.mainTexture = tex;
 
         art.transform.position = rcm.blankFrame.position;

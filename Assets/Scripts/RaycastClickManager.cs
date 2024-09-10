@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,31 +6,32 @@ using UnityEngine.UI;
 
 public class RaycastClickManager : MonoBehaviour
 {
-    // ºó ÀÚ¸®¸¦ Å¬¸¯ÇÏ¸é ±×¸² ¼±ÅÃÃ¢ÀÌ ¶ß°í °í¸¥ ±×¸²ÀÌ µé¾î°£ ¾×ÀÚ¸¦ ÇØ´ç ÀÚ¸®¿¡ °É ¼ö ÀÖ´Ù.
+    // ë¹ˆ ìë¦¬ë¥¼ í´ë¦­í•˜ë©´ ê·¸ë¦¼ ì„ íƒì°½ì´ ëœ¨ê³  ê³ ë¥¸ ê·¸ë¦¼ì´ ë“¤ì–´ê°„ ì•¡ìë¥¼ í•´ë‹¹ ìë¦¬ì— ê±¸ ìˆ˜ ìˆë‹¤.
 
-
-    // ±×¸²À» ¼±ÅÃÇÏ´Â UI
+    // ê·¸ë¦¼ì„ ì„ íƒí•˜ëŠ” UI
     public GameObject selectPic;
 
-    // ºóÀÚ¸® À§Ä¡(¾×ÀÚ¸¦ °É ÀÚ¸®)
-    public Transform blankFrame;    
+    // ë¹ˆìë¦¬ ìœ„ì¹˜(ì•¡ìë¥¼ ê±¸ ìë¦¬)
+    public Transform blankFrame;
+
+    public bool checkWH; // ê°€ë¡œê°€ true, ì„¸ë¡œê°€ false
 
     void Start()
     {
-        // ±×¸²¼±ÅÃÃ¢ ºñÈ°¼ºÈ­
+        // ê·¸ë¦¼ì„ íƒì°½ ë¹„í™œì„±í™”
         selectPic.SetActive(false);
     }
 
     void Update()
     {
-        #region ¸ğ¹ÙÀÏ ÅÍÄ¡ ÀÔ·Â
-        // ÅÍÄ¡ ÀÔ·ÂÀÌ ÀÖ´ÂÁö È®ÀÎÇÑ´Ù.
+        #region ëª¨ë°”ì¼ í„°ì¹˜ ì…ë ¥
+        // í„°ì¹˜ ì…ë ¥ì´ ìˆëŠ”ì§€ í™•ì¸í•œë‹¤.
         if (Input.touchCount > 0) 
         {
-            // Ã¹¹øÂ° ÅÍÄ¡¸¦ °¡Á®¿Â´Ù.
+            // ì²«ë²ˆì§¸ í„°ì¹˜ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
             Touch touch = Input.GetTouch(0);
 
-            // ÅÍÄ¡°¡ ½ÃÀÛµÇ¾ú´ÂÁö È®ÀÎÇÑ´Ù.( = GetMouseButtonDown)
+            // í„°ì¹˜ê°€ ì‹œì‘ë˜ì—ˆëŠ”ì§€ í™•ì¸í•œë‹¤.( = GetMouseButtonDown)
             if(touch.phase == TouchPhase.Began) 
             {
                 OnTouchDown(touch);
@@ -46,34 +47,34 @@ public class RaycastClickManager : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // ¸¶¿ì½º Æ÷ÀÎÅÍ À§Ä¡¿¡ ·¹ÀÌ¸¦ ½ğ´Ù.
+        // ë§ˆìš°ìŠ¤ í¬ì¸í„° ìœ„ì¹˜ì— ë ˆì´ë¥¼ ìœë‹¤.
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            // Å¬¸¯ÇÑ ¿ÀºêÁ§Æ®¸¦ ÀúÀå
+            // í´ë¦­í•œ ì˜¤ë¸Œì íŠ¸ë¥¼ ì €ì¥
             GameObject obj = hit.collider.gameObject;
             Debug.Log(obj.name);
-            // Å¬¸¯ÇÑ ¿ÀºêÁ§Æ®°¡ ºóÀÚ¸®¶ó¸é
-            if (obj.tag == "EmptyFrame") 
+            // í´ë¦­í•œ ì˜¤ë¸Œì íŠ¸ê°€ ë¹ˆìë¦¬ë¼ë©´
+            if (obj.tag == "FrameW" || obj.tag == "FrameH") 
             {
-                // ±×¸² ¼±ÅÃÃ¢ÀÌ È°¼ºÈ­µÈ´Ù.
+                if (obj.tag == "FrameW") checkWH = true;
+                else if (obj.tag == "FrameH") checkWH = false;
+                // ê·¸ë¦¼ ì„ íƒì°½ì´ í™œì„±í™”ëœë‹¤.
                 selectPic.SetActive(true);
-                // ¼±ÅÃÇÑ ÀÚ¸®ÀÇ À§Ä¡¸¦ ÀúÀåÇÑ´Ù.
+                // ì„ íƒí•œ ìë¦¬ì˜ ìœ„ì¹˜ë¥¼ ì €ì¥í•œë‹¤.
                 blankFrame = obj.transform;
-                // ºóÀÚ¸® Ç¥½Ã¸¦ ¾ø¾Ø´Ù.
-                MeshRenderer[] objMeshRenderer = obj.GetComponents<MeshRenderer>();
-                Collider objCollider = obj.GetComponent<Collider>();
+                Collider objCol = obj.GetComponent<Collider>();
 
-                objMeshRenderer[0].enabled = false;
-                objCollider.enabled = false;
+                // ë¹ˆìë¦¬ í‘œì‹œë¥¼ ì—†ì•¤ë‹¤.
+                objCol.enabled = false;
             }            
         }
     }
 
     private void OnTouchDown(Touch touch)
     {
-        // ºó ¾×ÀÚ¸¦ Å¬¸¯ÇÏ¸é ±×¸²À» °í¸¦ ¼ö ÀÖ´Ù.
+        // ë¹ˆ ì•¡ìë¥¼ í´ë¦­í•˜ë©´ ê·¸ë¦¼ì„ ê³ ë¥¼ ìˆ˜ ìˆë‹¤.
         Ray ray = Camera.main.ScreenPointToRay(touch.position);
         RaycastHit hit;
         if(Physics.Raycast(ray, out hit)) 

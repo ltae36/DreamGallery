@@ -9,23 +9,25 @@ public class ButtonManager : MonoBehaviour
     // 생성할 액자
     public GameObject planeW;
     public GameObject planeH;
+
+    // 액자 클릭 스크립트
     public RaycastClickManager rcm;
+
+    // 텍스처, 스프라이트 및 썸네일 목록 스크립트
     public PicManager pm;
 
-    MeshRenderer mr;
-    //public RawImage[] images;
-    
+    MeshRenderer mr;    
     GameObject clickObject;
-    RawImage image;
     Texture tex;
 
     void Start()
     {
+        // 그림을 넣을 플레인의 메쉬렌더러 컴포넌트를 가져온다.
         mr = planeW.GetComponentInChildren<MeshRenderer>();
-        mr = planeH.GetComponentInChildren<MeshRenderer>();
-        
+        mr = planeH.GetComponentInChildren<MeshRenderer>();        
     }
 
+    // 그림 선택창에서 그림을 클릭하면 불러오는 함수
     public void ClickBotton()
     {
         // 클릭한 오브젝트의 인덱스의 번호를 저장하여 해당하는 번호의 텍스처를 저장하여 가져온다.
@@ -39,7 +41,7 @@ public class ButtonManager : MonoBehaviour
         //tex = image.mainTexture;
         //print(tex.name);
 
-        // 해당하는 자리에 액자를 생성한다.
+        // 플레인 프리팹 생성
         GameObject art;
         if (rcm.checkWH) // 가로 액자를 선택했을 경우
         {
@@ -54,8 +56,10 @@ public class ButtonManager : MonoBehaviour
         MeshRenderer mr = art.GetComponentInChildren<MeshRenderer>();
         mr.material.mainTexture = tex;
 
+        // 생성한 그림의 위치를 액자 위로 맞춘다.
         art.transform.position = rcm.blankFrame.position;
 
+        // 그림 선택창을 비활성화
         rcm.selectPic.SetActive(false);
     }
 }

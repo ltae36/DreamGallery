@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1554134792499474460}
   m_Layer: 0
   m_Name: FrameWidth
-  m_TagString: Untagged
+  m_TagString: FrameW
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

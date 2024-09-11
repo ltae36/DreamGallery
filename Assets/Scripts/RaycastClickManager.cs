@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class RaycastClickManager : MonoBehaviour
 {
-    // 빈 자리를 클릭하면 그림 선택창이 뜨고 고른 그림이 들어간 액자를 해당 자리에 걸 수 있다.
+    // 빈 액자를 클릭하면 그림 선택창이 뜨고 고른 그림이 들어간 액자를 해당 자리에 걸 수 있다.
 
     // 그림을 선택하는 UI
     public GameObject selectPic;

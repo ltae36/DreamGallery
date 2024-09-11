@@ -1763,8 +1763,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6e50fe9de8b6864d847bf0f9c3dded9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites: []
   textures: []
+  sprites: []
   thumNails:
   - {fileID: 842812384}
   - {fileID: 613793419}
@@ -2277,8 +2277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b6861d79841524cb2d8951991ae8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mychar: {fileID: 1260346884}
-  roomNameMark: {fileID: 1888912689}
 --- !u!114 &525767035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7107,26 +7105,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: FrameHeight (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 347633527096739964, guid: 32832d4156eb3034ab46700849679977,
-        type: 3}
-      propertyPath: m_TagString
-      value: FrameH
-      objectReference: {fileID: 0}
-    - target: {fileID: 6370318003096593662, guid: 32832d4156eb3034ab46700849679977,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6370318003096593662, guid: 32832d4156eb3034ab46700849679977,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6370318003096593662, guid: 32832d4156eb3034ab46700849679977,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 6370318003096593662, guid: 32832d4156eb3034ab46700849679977,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7176,11 +7154,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6370318003096593662, guid: 32832d4156eb3034ab46700849679977,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7961,7 +7934,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 525767034}
         m_TargetAssemblyTypeName: NetworkConnection, Assembly-CSharp
-        m_MethodName: OnClickConnect
+        m_MethodName: MoveSetting
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9512,11 +9485,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FrameWidth
-      objectReference: {fileID: 0}
-    - target: {fileID: 3414156341239683458, guid: 56219a1d0bb596844b76998cf2265903,
-        type: 3}
-      propertyPath: m_TagString
-      value: FrameW
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

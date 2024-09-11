@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PaintingMode : MonoBehaviour
-{
-    // 캔버스 클릭하면 페인팅 화면 전환
+{   
+    // 캔버스 클릭하면 아웃라인이 표시되고 페인팅 화면 전환
     public GameObject paintingView;
     public GameObject globalView;
     public GameObject paintingTool;

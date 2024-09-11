@@ -6,6 +6,8 @@ TagManager:
   tags:
   - FrameW
   - FrameH
+  - Plane
+  - Paint
   layers:
   - Default
   - TransparentFX

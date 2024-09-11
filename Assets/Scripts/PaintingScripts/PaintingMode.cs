@@ -1,14 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PaintingMode : MonoBehaviour
 {
     // 캔버스 클릭하면 페인팅 화면 전환
+
+    // 그림그리는 화면
     public GameObject paintingView;
-    public GameObject globalView;
-    public GameObject paintingTool;
     public Transform paintingMode;
+
+    // 필드 화면    
+    public GameObject globalView;
+    // 페인팅 UI
+    public GameObject paintingTool;
 
     private bool shouldTransition = false;
     private float transitionProgress = 0f;
@@ -21,11 +27,7 @@ public class PaintingMode : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnMouseDown();
-        }
-
+        if (Input.GetMouseButtonDown(0)) OnMouseDown();
         if (shouldTransition)
         {
             // 카메라 위치와 회전 전환
@@ -50,7 +52,7 @@ public class PaintingMode : MonoBehaviour
         {
             print(hit.collider.gameObject.name);
             // 캔버스를 클릭하면 카메라가 전환된다.
-            if (hit.collider.gameObject.name == "PaintngCanvas")
+            if (hit.collider.gameObject.tag == "Paint")
             {
                 paintingView.SetActive(true);
                 shouldTransition = true; // 전환을 시작하도록 플래그 설정

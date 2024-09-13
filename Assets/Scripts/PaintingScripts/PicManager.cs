@@ -18,6 +18,29 @@ public class PicManager : MonoBehaviour
         StartCoroutine(LoadSprites());
     }
 
+    // StreamingAsset 폴더에서 이미지 파일 가져오는 함수
+    //public void GetStreamingAssetImage() 
+    //{
+    //    // StreamingAssets 경로
+    //    string path = Application.streamingAssetsPath;
+
+    //    // 해당 폴더의 모든 PNG 파일 경로 불러오기
+    //    string[] filePaths = Directory.GetFiles(path, "*.png");
+
+    //    foreach (string filePath in filePaths)
+    //    {
+    //        string url = "file://" + filePath; // png파일 경로를 파일명에 합치기
+
+    //        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+    //        {
+    //            yield return www.SendWebRequest();
+
+    //            Texture2D texture = DownloadHandlerTexture.GetContent(www);
+
+    //            textures.Add(texture); // 텍스처 리스트에 추가               
+    //        }
+    //    }
+    //}
 
     // 게임이 시작하면 StreamingAsset 폴더에서 이미지 파일들을 가져온다.
     IEnumerator LoadSprites()

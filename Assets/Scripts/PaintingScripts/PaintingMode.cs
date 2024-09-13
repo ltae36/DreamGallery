@@ -18,6 +18,9 @@ public class PaintingMode : MonoBehaviour
     // 플레이어 캐릭터
     GameObject player;
 
+    // 페인팅모드 매니저
+    PaintingModeMgr pmm;
+
     private bool shouldTransition = false;
     private float transitionProgress = 0f;
     public float transitionSpeed = 2f; // 이동 속도를 조정할 수 있는 변수
@@ -30,6 +33,8 @@ public class PaintingMode : MonoBehaviour
 
         globalView = GameObject.FindWithTag("MainCamera");
         player = GameObject.FindWithTag("Player");
+        GameObject pmmObj = GameObject.Find("ModeManager");
+        pmm = pmmObj.GetComponent<PaintingModeMgr>();
     }
     void Start()
     {        
@@ -43,6 +48,13 @@ public class PaintingMode : MonoBehaviour
         {
             TransitionCamera();
             player.SetActive(false);
+        }
+
+        if (pmm.canTransition) 
+        {
+            TransitionCameraBack();
+            player.SetActive(true);
+            StartCoroutine(WaitCameraOff());
         }
     }
 
@@ -92,10 +104,14 @@ public class PaintingMode : MonoBehaviour
 
         if (transitionProgress >= 1f)
         {
-            shouldTransition = false;
+            pmm.canTransition = false;
             transitionProgress = 0f; // 전환 완료 후 초기화
         }
+    }
 
+    IEnumerator WaitCameraOff()
+    {
+        yield return new WaitForEndOfFrame();
         paintingView.SetActive(false);
     }
 }

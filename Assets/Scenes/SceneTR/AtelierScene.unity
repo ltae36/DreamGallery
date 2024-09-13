@@ -4567,7 +4567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1406688008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5957,7 +5957,7 @@ GameObject:
   - component: {fileID: 1719023201}
   - component: {fileID: 1719023202}
   m_Layer: 0
-  m_Name: manager
+  m_Name: ModeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5995,6 +5995,7 @@ MonoBehaviour:
   - {fileID: 1041817191}
   - {fileID: 978665554}
   playerCheck: 0
+  canTransition: 0
   paintingTool: {fileID: 1406688007}
 --- !u!1 &1779817138
 GameObject:

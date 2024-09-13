@@ -29,4 +29,13 @@ public class PaintingModeTrigger : MonoBehaviour
             //pmm.playerCheck = true;
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            cea.enabled = false;
+            //pmm.playerCheck = true;
+        }
+    }
 }

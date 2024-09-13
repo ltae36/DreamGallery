@@ -14,9 +14,7 @@ public class PaintingModeMgr : MonoBehaviour
     public GameObject[] canvas;
     public bool playerCheck;
 
-    bool canTransition;
-
-    PaintingMode pm;
+    public bool canTransition;
 
     // 페인팅 모드 UI
     public GameObject paintingTool;
@@ -40,13 +38,6 @@ public class PaintingModeMgr : MonoBehaviour
     void Update()
     {
         if (Input.GetMouseButtonDown(0)) OnMouseDown();
-        if (pm != null)
-        {
-            if (canTransition)
-            {
-                pm.TransitionCameraBack();
-            }
-        }
     }
 
     private void OnMouseDown()
@@ -62,8 +53,6 @@ public class PaintingModeMgr : MonoBehaviour
             {
                 // 페인팅 툴 활성화
                 paintingTool.SetActive(true);
-                // 클릭한 오브젝트의 paintMode 저장
-                pm = obj.GetComponent<PaintingMode>();
                 for (int i = 0; i < canvas.Length; i++)
                 {
                     print(obj.name);
@@ -88,7 +77,6 @@ public class PaintingModeMgr : MonoBehaviour
             canvas[i].SetActive(true);
 
             canTransition = true; // 전환을 시작하도록 플래그 설정
-
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -16,15 +16,34 @@ public class ButtonManager : MonoBehaviour
     // 텍스처, 스프라이트 및 썸네일 목록 스크립트
     public PicManager pm;
 
+    // 저장 유틸리티
+    public SavePicJson saveManager;
+
     MeshRenderer mr;    
     GameObject clickObject;
     Texture tex;
+
+    GameObject art;
+
 
     void Start()
     {
         // 그림을 넣을 플레인의 메쉬렌더러 컴포넌트를 가져온다.
         mr = planeW.GetComponentInChildren<MeshRenderer>();
         mr = planeH.GetComponentInChildren<MeshRenderer>();        
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R)) 
+        {
+            saveManager.SavePrefab(art);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            saveManager.LoadPrefab();  // 저장된 프리팹 정보를 불러와 생성
+        }
     }
 
     // 그림 선택창에서 그림을 클릭하면 불러오는 함수
@@ -42,7 +61,6 @@ public class ButtonManager : MonoBehaviour
         //print(tex.name);
 
         // 플레인 프리팹 생성
-        GameObject art;
         if (rcm.checkWH) // 가로 액자를 선택했을 경우
         {
             art = Instantiate(planeW, rcm.blankFrame);

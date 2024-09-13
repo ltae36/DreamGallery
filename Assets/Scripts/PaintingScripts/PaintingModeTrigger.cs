@@ -17,7 +17,6 @@ public class PaintingModeTrigger : MonoBehaviour
         mgr = GameObject.Find("manager");
 
         cea.enabled = false;
-        pm.enabled = false;
         //pmm = mgr.GetComponent<PaintingModeMgr>();
     }
 
@@ -27,7 +26,6 @@ public class PaintingModeTrigger : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             cea.enabled = true;
-            pm.enabled = true;
             //pmm.playerCheck = true;
         }
     }

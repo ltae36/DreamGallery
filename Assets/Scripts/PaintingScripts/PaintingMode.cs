@@ -14,8 +14,7 @@ public class PaintingMode : MonoBehaviour
 
     // 필드 뷰 카메라
     GameObject globalView;
-    // 페인팅 UI
-    GameObject paintingTool;
+
     // 플레이어 캐릭터
     GameObject player;
 
@@ -29,10 +28,8 @@ public class PaintingMode : MonoBehaviour
         paintingMode = transform.GetChild(1).gameObject.transform;
         paintingView.SetActive(false);
 
-        paintingTool = GameObject.Find("PaletteUI");
         globalView = GameObject.FindWithTag("MainCamera");
         player = GameObject.FindWithTag("Player");
-        paintingTool.SetActive(false);
     }
     void Start()
     {        
@@ -46,7 +43,6 @@ public class PaintingMode : MonoBehaviour
         {
             TransitionCamera();
             player.SetActive(false);
-            paintingTool.SetActive(true);
         }
     }
 
@@ -67,6 +63,7 @@ public class PaintingMode : MonoBehaviour
         }
     }
 
+    // 캔버스를 클릭하면 그림그리기 화면으로 전환된다
     void TransitionCamera()
     {
         player.SetActive(false);
@@ -81,5 +78,24 @@ public class PaintingMode : MonoBehaviour
             shouldTransition = false;
             transitionProgress = 0f; // 전환 완료 후 초기화
         }
+    }
+
+    // 그만하기를 클릭하면 다시 필드 뷰로 전환된다.
+    public void TransitionCameraBack()
+    {
+        player.SetActive(true);
+
+        // 카메라 위치와 회전 전환
+        transitionProgress += Time.deltaTime * transitionSpeed;
+        paintingView.transform.position = Vector3.Lerp(paintingMode.position, globalView.transform.position, transitionProgress);
+        paintingView.transform.rotation = Quaternion.Lerp(paintingMode.rotation, globalView.transform.rotation, transitionProgress);
+
+        if (transitionProgress >= 1f)
+        {
+            shouldTransition = false;
+            transitionProgress = 0f; // 전환 완료 후 초기화
+        }
+
+        paintingView.SetActive(false);
     }
 }

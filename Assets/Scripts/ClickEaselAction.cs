@@ -15,7 +15,7 @@ public class ClickEaselAction : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0)) OnMouseDown();
+        if (Input.GetMouseButton(0) && Camera.main.gameObject != null) OnMouseDown();
         else 
         {
             outline.OutlineWidth = 0.2f;

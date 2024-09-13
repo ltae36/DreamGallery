@@ -5,16 +5,22 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SceneTR/ConnectScene.unity
     guid: c6847d33641258d40918bf550d33fa6f
   - enabled: 1
+    path: Assets/Scenes/KGCSCene/Connection.unity
+    guid: becb675fc827046489d55279bb08303e
+  - enabled: 0
     path: Assets/Scenes/SceneTR/LobbyScene.unity
     guid: 90ed3e26bb03c7146a832f11bead79e0
+  - enabled: 0
+    path: Assets/Scenes/SceneTR/AtelierScene.unity
+    guid: be4247ee206207b4b88873f28dba9d68
   - enabled: 1
     path: Assets/Scenes/KGCSCene/PaintingScene.unity
     guid: 389aa851cfdf8d047b4b9fd57a181ddd
   - enabled: 0
-    path: Assets/Scenes/SceneTR/AtelierScene.unity
-    guid: be4247ee206207b4b88873f28dba9d68
+    path: Assets/Scenes/SceneTR/AtelierScene _KGC.unity
+    guid: 9f458d7f6b5969e4283c3b19f911d529
   m_configObjects: {}

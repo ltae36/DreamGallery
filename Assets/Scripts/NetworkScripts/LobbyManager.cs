@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Realtime;
-using UnityEngine.TextCore.Text;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -32,7 +31,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     void Start()
     {
         // 로비 진입
-        PhotonNetwork.JoinLobby();
+        //PhotonNetwork.JoinLobby();
 
         // 인풋필드의 내용이 변경되었을 때 호출되는 함수
         inputRoomCode.onValueChanged.AddListener(OnValueChangedRoomName);
@@ -40,11 +39,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         maxPlayer.onValueChanged.AddListener(OnValueChangedMaxPlayer);
     }
 
-    public override void OnJoinedLobby()
-    {
-        base.OnJoinedLobby();
-        print("로비 진입 성공");
-    }
+    //public override void OnJoinedLobby()
+    //{
+    //    base.OnJoinedLobby();
+    //    print("로비 진입 성공");
+    //}
 
     // 입력에 따른 버튼 활성화
     void OnValueChangedRoomName(string roomName) 

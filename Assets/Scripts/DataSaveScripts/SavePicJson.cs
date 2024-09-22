@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +14,8 @@ public class PrefabData
     public string texturePath; // 텍스처 경로
 
 }
+
+/*
 public class SavePicJson : MonoBehaviour
 {
     public GameObject prefab;  // 프리팹
@@ -24,6 +25,7 @@ public class SavePicJson : MonoBehaviour
     {
         // JSON 저장 경로 설정
         savePath = Path.Combine(Application.persistentDataPath, "prefabData.json");
+        LoadPrefab();
     }
 
     void Update()
@@ -91,4 +93,4 @@ public class SavePicJson : MonoBehaviour
         }
     }
 
-}
+}*/

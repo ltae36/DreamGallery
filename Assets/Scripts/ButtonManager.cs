@@ -17,7 +17,7 @@ public class ButtonManager : MonoBehaviour
     public PicManager pm;
 
     // 저장 유틸리티
-    public SavePicJson saveManager;
+    //public SavePicJson saveManager;
 
     MeshRenderer mr;    
     GameObject clickObject;
@@ -35,15 +35,15 @@ public class ButtonManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R)) 
-        {
-            saveManager.SavePrefab(art);
-        }
+        //if (Input.GetKeyDown(KeyCode.R)) 
+        //{
+        //    saveManager.SavePrefab(art);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            saveManager.LoadPrefab();  // 저장된 프리팹 정보를 불러와 생성
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    saveManager.LoadPrefab();  // 저장된 프리팹 정보를 불러와 생성
+        //}
     }
 
     // 그림 선택창에서 그림을 클릭하면 불러오는 함수

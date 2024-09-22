@@ -15,6 +15,5 @@ public class CharSyncro : MonoBehaviourPun
     void Start()
     {
         PhotonNetwork.Instantiate("Player", startPos.position, Quaternion.identity);
-
     }
 }

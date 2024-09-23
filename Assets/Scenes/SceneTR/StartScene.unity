@@ -583,9 +583,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1597025151}
-        m_TargetAssemblyTypeName: NetworkConnection, Assembly-CSharp
-        m_MethodName: OnClickConnect
+      - m_Target: {fileID: 1597025152}
+        m_TargetAssemblyTypeName: TestSceneMgr, Assembly-CSharp
+        m_MethodName: StartScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2232,6 +2232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1597025150}
   - component: {fileID: 1597025151}
+  - component: {fileID: 1597025152}
   m_Layer: 0
   m_Name: MoveScMgr
   m_TagString: Untagged
@@ -2261,9 +2262,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1597025148}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6b6861d79841524cb2d8951991ae8c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1597025152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1597025148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64b11c1910392d46af8b1535383c305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1647809053

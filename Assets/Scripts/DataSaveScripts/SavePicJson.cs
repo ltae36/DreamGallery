@@ -15,7 +15,7 @@ public class PrefabData
 
 }
 
-/*
+
 public class SavePicJson : MonoBehaviour
 {
     public GameObject prefab;  // 프리팹
@@ -75,14 +75,14 @@ public class SavePicJson : MonoBehaviour
 
                 //StreamingAssets 폴더에서 텍스처를 불러온다.
                 // Texture 적용 (있다면)
-                if (!string.IsNullOrEmpty(data.texturePath))
-                {
-                    Texture texture = AssetDatabase.LoadAssetAtPath<Texture>(data.texturePath);
-                    if (texture != null)
-                    {
-                        renderer.material.mainTexture = texture;
-                    }
-                }
+                //if (!string.IsNullOrEmpty(data.texturePath))
+                //{
+                //    Texture texture = AssetDatabase.LoadAssetAtPath<Texture>(data.texturePath);
+                //    if (texture != null)
+                //    {
+                //        renderer.material.mainTexture = texture;
+                //    }
+                //}
             }
 
             Debug.Log("Prefab 정보 불러오기 완료.");
@@ -92,5 +92,4 @@ public class SavePicJson : MonoBehaviour
             Debug.LogWarning("저장된 데이터가 없습니다.");
         }
     }
-
-}*/
+}

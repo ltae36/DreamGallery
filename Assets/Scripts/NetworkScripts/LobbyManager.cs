@@ -8,13 +8,7 @@ using Photon.Realtime;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    /* 온라인 모드 설정 방법
-    * 1. 온라인 모드 버튼을 클릭해 마스터 서버에 접속한다 
-    * 2. 로비창으로 이동한다 
-    * 3. 초대하기 버튼과 방문하기 버튼 중 하나를 선택한다
-    * 4-1. 초대하기를 클릭하면 방제와 인원수를 입력란이 뜨고 방을 생성, 입장한다.
-    * 4-2. 방문하기 버튼을 클릭하면 방제 입력란이 뜨고 방제를 입력하고 해당 방으로 입장한다.
-    */
+    //친구의 아이디를 입력해 친구의 갤러리에 방문한다.
 
     // 방제입력
     public TMP_InputField inputRoomCode;
@@ -38,12 +32,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         searchRoomCode.onValueChanged.AddListener(OnValueChangedRoomName);
         maxPlayer.onValueChanged.AddListener(OnValueChangedMaxPlayer);
     }
-
-    //public override void OnJoinedLobby()
-    //{
-    //    base.OnJoinedLobby();
-    //    print("로비 진입 성공");
-    //}
 
     // 입력에 따른 버튼 활성화
     void OnValueChangedRoomName(string roomName) 

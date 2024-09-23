@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 6499647843569964343}
   - component: {fileID: 7167218266086401185}
   - component: {fileID: 6389795934801366275}
+  - component: {fileID: 8055038196013256915}
   m_Layer: 0
   m_Name: PaintingModeCam
   m_TagString: Untagged
@@ -329,6 +330,35 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &8055038196013256915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8857739327268127606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8cad4f55daff14418aaba72d07fe520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brush: 0
+  canPaint: 1
+  paintCount: 0
+  questionStartcount: 500
+  paintingPlane: {fileID: 0}
+  userInput: {fileID: 0}
+  ChatUI: {fileID: 0}
+  question: {fileID: 0}
+  materialToModify: {fileID: 0}
+  paintColor: {r: 1, g: 0, b: 0, a: 1}
+  brushRadius: 2
+  canvasPlane: {fileID: 7884809235236451716}
+  resolution: 100
+  alpha: {fileID: 0}
+  size: {fileID: 0}
+  colorHex: {fileID: 0}
+  picName: 
 --- !u!1001 &5666760189262408077
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -435,6 +465,12 @@ PrefabInstance:
 --- !u!4 &3980866441935433027 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8762457525747057870, guid: 508746ccd38d99849bb44ca2814de257,
+    type: 3}
+  m_PrefabInstance: {fileID: 5666760189262408077}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7884809235236451716 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2578337617862155273, guid: 508746ccd38d99849bb44ca2814de257,
     type: 3}
   m_PrefabInstance: {fileID: 5666760189262408077}
   m_PrefabAsset: {fileID: 0}

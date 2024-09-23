@@ -40,6 +40,9 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - RPC_ReceiveTexture
+  - RPC_PaintAirbrush
+  - RPC_PaintHardType
+  - RPC_CanvasChange
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

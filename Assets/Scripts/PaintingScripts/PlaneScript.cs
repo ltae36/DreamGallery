@@ -29,14 +29,14 @@ public class PlaneScript : MonoBehaviour
     void Update()
     {
        
-        if (paintedCount >= question1Count)
+        if (paintedCount >= question1Count)//일정 붓터치수마다 AI한테 그림을 보내주는 스크립트 넣어야됨.
         {
             if (question1)
             {
                 question1 = !question1;
-                ChatUI.SetActive(true);
-                question.text = "어떤 그림을 그리시나요? 얼마나 그리셨나요?";
-                StartCoroutine(ButtonOn());
+                //ChatUI.SetActive(true);
+                //question.text = "어떤 그림을 그리시나요? 얼마나 그리셨나요?";
+                //StartCoroutine(ButtonOn());
             }
         }
         if (paintedCount >= question2Count)
@@ -44,9 +44,9 @@ public class PlaneScript : MonoBehaviour
             if (question2)
             {
                 question2 = !question2;
-                ChatUI.SetActive(true);
-                question.text = "그림의 의도가 있으신가요?";
-                StartCoroutine(ButtonOn());
+                //ChatUI.SetActive(true);
+                //question.text = "그림의 의도가 있으신가요?";
+                //StartCoroutine(ButtonOn());
             }
         }
     }

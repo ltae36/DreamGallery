@@ -1,12 +1,11 @@
-﻿using JetBrains.Annotations;
-using Photon.Pun;
-using System;
+﻿using Photon.Pun; // Photon 관련 라이브러리 추가
+using System.Collections;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class RealTimeTexturePainter : MonoBehaviourPun
+public class RealTimeTexturePainter : MonoBehaviourPun // MonoBehaviourPun으로 변경
 {
     public enum BrushStyle
     {
@@ -15,46 +14,56 @@ public class RealTimeTexturePainter : MonoBehaviourPun
     }
 
     public BrushStyle brush;
-
     public bool canPaint = true;
 
     public int paintCount = 0;
     public int questionStartcount = 500;
 
     public GameObject paintingPlane;
-
     public Text userInput;
-
     public GameObject ChatUI;
     public Text question;
 
-    public Material materialToModify;    // 수정할 material
-    private Texture2D texture2D;         // 텍스처를 저장할 Texture2D
-    public Color paintColor = Color.red; // 페인트 색상 설정
-    public int brushRadius = 2;          // 브러시의 반경 (픽셀)
-    public GameObject canvasPlane;       // 페인팅할 Plane 오브젝트
+    public Material materialToModify;
+    private Texture2D texture2D;
+    public Color paintColor = Color.red; // Color는 개별 요소로 나눠서 전송할 필요가 있음
+    public int brushRadius = 2;
+    public GameObject canvasPlane;
 
-    public int resolution = 10;
+    public int resolution = 100;
 
-    //알파 변경 슬라이더
     public Slider alpha;
-    //사이즈 변경용 슬라이더
     public Slider size;
-    //색상 변경용
     public InputField colorHex;
 
-    private Vector2? previousUVPosition = null; // 이전 프레임의 UV 좌표
+    private Vector2? previousUVPosition = null;
 
-    //void Start()
+    private PhotonView pv; // PhotonView 추가
+
+    void Start()
+    {
+        pv = GetComponent<PhotonView>(); // PhotonView 초기화
+    }
+
+    [PunRPC]
+    void RPC_CanvasChange(int planeViewID)
+    {
+        // 받은 ViewID를 통해 평면 오브젝트 가져오기
+        GameObject newCanvasPlane = PhotonView.Find(planeViewID).gameObject;
+
+        if (newCanvasPlane != null)
+        {
+            canvasPlane = newCanvasPlane;
+            materialToModify = canvasPlane.GetComponent<MeshRenderer>().material;
+            CanvasChange();  // 동기화된 캔버스에 변경사항 적용
+        }
+    }
     void CanvasChange()
     {
-        // Material이 할당되지 않은 경우 새 Material 생성
         if (materialToModify == null)
         {
-            // Universal Render Pipeline의 Unlit 쉐이더를 사용하는 새 Material 생성
             materialToModify = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
 
-            // 새로 생성한 Material을 Plane에 적용
             Renderer renderer = canvasPlane.GetComponent<Renderer>();
             if (renderer != null)
             {
@@ -62,26 +71,18 @@ public class RealTimeTexturePainter : MonoBehaviourPun
             }
         }
 
-       
-        // Material에 이미 텍스처가 있는지 확인
         if (materialToModify.mainTexture != null)
         {
-            // 기존 텍스처가 있는 경우 이를 Texture2D로 캐스팅
             texture2D = materialToModify.mainTexture as Texture2D;
         }
         else
         {
-            // 텍스처가 없는 경우 새로 생성
             Vector3 planeSize = GetPlaneSizeInWorldUnits(canvasPlane);
             int textureWidth = Mathf.CeilToInt(planeSize.x * resolution);
             int textureHeight = Mathf.CeilToInt(planeSize.z * resolution);
             texture2D = new Texture2D(textureWidth, textureHeight, TextureFormat.RGBA32, false);
-            print((planeSize.x*100).ToString());
-            print((planeSize.z*100).ToString());
 
-            // 흰색으로 텍스처 초기화
             Color[] fillColorArray = texture2D.GetPixels();
-
             for (int i = 0; i < fillColorArray.Length; ++i)
             {
                 fillColorArray[i] = Color.white;
@@ -89,10 +90,8 @@ public class RealTimeTexturePainter : MonoBehaviourPun
             texture2D.SetPixels(fillColorArray);
             texture2D.Apply();
 
-            // Material에 초기 텍스처 적용
             materialToModify.mainTexture = texture2D;
 
-            // Plane에 MeshCollider가 없다면 추가
             if (canvasPlane.GetComponent<MeshCollider>() == null)
             {
                 canvasPlane.AddComponent<MeshCollider>();
@@ -100,42 +99,38 @@ public class RealTimeTexturePainter : MonoBehaviourPun
         }
     }
 
-    public void ResetUserInputText()
-    {
-        userInput.text = "";
-    }
-
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))  // 오른쪽 마우스 클릭
         {
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.transform.CompareTag("Plane"))
+                if (hit.transform.CompareTag("Plane"))  // Plane 태그가 있는 오브젝트 클릭
                 {
                     paintingPlane = hit.transform.gameObject;
-                    if (hit.transform.gameObject != canvasPlane)
+
+                    if (hit.transform.gameObject != canvasPlane)  // 새로운 Plane을 클릭했을 때
                     {
                         canvasPlane = hit.transform.gameObject;
                         materialToModify = hit.transform.gameObject.GetComponent<MeshRenderer>().material;
-                        CanvasChange();
-                    }
-                    //print("캔버스임");
-                }
 
+                        // 모든 클라이언트에게 canvasPlane 변경을 동기화
+                        int planeViewID = canvasPlane.GetPhotonView().ViewID;
+                        pv.RPC("RPC_CanvasChange", RpcTarget.AllBuffered, planeViewID);
+                    }
+                }
             }
         }
     }
     void FixedUpdate()
     {
-        if (paintCount >= questionStartcount)
-        {
-            Question1();
-        }
+        //if (paintCount >= questionStartcount)
+        //{
+        //    print("AI에 지금까지 그린 그림 전송");
+        //}
 
         if (ChatUI.activeInHierarchy)
         {
@@ -151,186 +146,79 @@ public class RealTimeTexturePainter : MonoBehaviourPun
             return;
         }
 
-       
-
-
         if (Input.GetKeyDown(KeyCode.Alpha1)) brush = BrushStyle.HardType;
         if (Input.GetKeyDown(KeyCode.Alpha2)) brush = BrushStyle.Airbrush;
 
-        switch (brush)
+        if (true) 
         {
-            case BrushStyle.Airbrush:
-                if (Input.GetMouseButton(0))
-                {
-                    PaintOnTexture_Airbrush();
-                }
-                else
-                {
-                    // 마우스를 클릭하지 않았을 경우, 이전 위치를 초기화
-                    previousUVPosition = null;
-                }
-                break;
-
-            case BrushStyle.HardType:
-                if (Input.GetMouseButton(0))
-                {
-                    PaintOnTexture();
-                }
-                else
-                {
-                    // 마우스를 클릭하지 않았을 경우, 이전 위치를 초기화
-                    previousUVPosition = null;
-                }
-                break;
-        }
-    }
-
-    private void Question1()
-    {
-        
-        ChatUI.SetActive(true);
-        question.text = "어떤 그림을 그리고 계신가요? 얼마나 진행됐나요?";
-
-    }
-
-    void PaintOnTexture() // 하드타입
-    {
-        // 마우스 포인터의 위치를 가져옴
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        // Plane과의 충돌 여부 확인
-        if (Physics.Raycast(ray, out hit))
-        {
-            Vector2 currentUVPosition = hit.textureCoord;
-
-            if (hit.collider.gameObject == canvasPlane)
+            switch (brush)
             {
-                // 이전 UV 좌표가 있다면 두 좌표 사이를 채워줌
-                if (previousUVPosition.HasValue)
-                {
-                    Vector2 previousUV = previousUVPosition.Value;
-                    float distance = Vector2.Distance(previousUV, currentUVPosition);
-                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // 보간할 스텝 수
-
-                    for (int i = 0; i <= steps; i++)
+                case BrushStyle.Airbrush:
+                    if (Input.GetMouseButton(0))
                     {
-                        Vector2 lerpUV = Vector2.Lerp(previousUV, currentUVPosition, (float)i / steps);
-                        int texX = (int)(lerpUV.x * texture2D.width);
-                        int texY = (int)(lerpUV.y * texture2D.height);
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
 
-                        for (int x = -brushRadius; x <= brushRadius; x++)
+                        if (Physics.Raycast(ray, out hit))
                         {
-                            for (int y = -brushRadius; y <= brushRadius; y++)
+                            if (hit.collider.gameObject == canvasPlane)
                             {
-                                int px = texX + x;
-                                int py = texY + y;
-
-                                if (x * x + y * y <= brushRadius * brushRadius)
-                                {
-                                    if (px >= 0 && px < texture2D.width && py >= 0 && py < texture2D.height)
-                                    {
-                                        Color originalColor = texture2D.GetPixel(px, py);
-                                        Color blendedColor = Color.Lerp(originalColor, paintColor, paintColor.a);
-
-                                        texture2D.SetPixel(px, py, blendedColor);
-                                    }
-                                }
+                                Vector2 uvPosition = hit.textureCoord;
+                                // Color 값을 개별 요소로 나눠서 전송
+                                pv.RPC("RPC_PaintAirbrush", RpcTarget.All, uvPosition.x, uvPosition.y, brushRadius, paintColor.r, paintColor.g, paintColor.b, paintColor.a);
                             }
                         }
                     }
-                }
-                else
-                {
-                    PaintAtUV(currentUVPosition);
-                    paintingPlane.GetComponent<PlaneScript>().paintedCount++;
-
-                }
-
-                texture2D.Apply(); // 수정된 텍스처를 적용
-                paintingPlane.GetComponent<PlaneScript>().paintedCount++;
-
-
-                previousUVPosition = currentUVPosition; // 현재 위치를 이전 위치로 업데이트
-            }
-        }
-        else
-        {
-            previousUVPosition = null; // 캔버스를 벗어나면 이전 위치 초기화
-        }
-    }
-
-    void PaintOnTexture_Airbrush() // 에어브러쉬
-    {
-        // 마우스 포인터의 위치를 가져옴
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        // Plane과의 충돌 여부 확인
-        if (Physics.Raycast(ray, out hit))
-        {
-            Vector2 currentUVPosition = hit.textureCoord;
-
-            if (hit.collider.gameObject == canvasPlane)
-            {
-                // 이전 UV 좌표가 있다면 두 좌표 사이를 채워줌
-                if (previousUVPosition.HasValue)
-                {
-                    Vector2 previousUV = previousUVPosition.Value;
-                    float distance = Vector2.Distance(previousUV, currentUVPosition);
-                    int steps = Mathf.CeilToInt(distance / brushRadius) * 10; // 보간할 스텝 수
-
-                    for (int i = 0; i <= steps; i++)
+                    else
                     {
-                        Vector2 lerpUV = Vector2.Lerp(previousUV, currentUVPosition, (float)i / steps);
-                        int texX = (int)(lerpUV.x * texture2D.width);
-                        int texY = (int)(lerpUV.y * texture2D.height);
+                        previousUVPosition = null;
+                    }
+                    break;
 
-                        for (int x = -brushRadius; x <= brushRadius; x++)
+                case BrushStyle.HardType:
+                    if (Input.GetMouseButton(0))
+                    {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hit;
+
+                        if (Physics.Raycast(ray, out hit))
                         {
-                            for (int y = -brushRadius; y <= brushRadius; y++)
+                            if (hit.collider.gameObject == canvasPlane)
                             {
-                                int px = texX + x;
-                                int py = texY + y;
-
-                                float distanceFromCenter = Mathf.Sqrt(x * x + y * y);
-                                if (distanceFromCenter <= brushRadius)
-                                {
-                                    if (px >= 0 && px < texture2D.width && py >= 0 && py < texture2D.height)
-                                    {
-                                        float alpha = 1 - (distanceFromCenter / brushRadius);
-                                        Color originalColor = texture2D.GetPixel(px, py);
-                                        Color blendedColor = Color.Lerp(originalColor, paintColor, alpha * paintColor.a);
-
-                                        texture2D.SetPixel(px, py, blendedColor);
-                                    }
-                                }
+                                Vector2 uvPosition = hit.textureCoord;
+                                // Color 값을 개별 요소로 나눠서 전송
+                                pv.RPC("RPC_PaintHardType", RpcTarget.All, uvPosition.x, uvPosition.y, brushRadius, paintColor.r, paintColor.g, paintColor.b, paintColor.a);
                             }
                         }
                     }
-                }
-                else
-                {
-                    PaintAtUV_Airbrush(currentUVPosition);
-                    paintingPlane.GetComponent<PlaneScript>().paintedCount++;
-
-
-                }
-
-                texture2D.Apply(); // 수정된 텍스처를 적용
-                paintingPlane.GetComponent<PlaneScript>().paintedCount++;
-
-
-                previousUVPosition = currentUVPosition; // 현재 위치를 이전 위치로 업데이트
+                    else
+                    {
+                        previousUVPosition = null;
+                    }
+                    break;
             }
-        }
-        else
-        {
-            previousUVPosition = null; // 캔버스를 벗어나면 이전 위치 초기화
         }
     }
 
-    void PaintAtUV(Vector2 uvPosition) // 하드타입
+    // 수신된 float 값을 Color로 변환하여 사용
+    [PunRPC]
+    void RPC_PaintAirbrush(float uvX, float uvY, int brushRadius, float r, float g, float b, float a)
+    {
+        Vector2 uvPosition = new Vector2(uvX, uvY);
+        Color color = new Color(r, g, b, a); // 받은 float 값을 Color로 변환
+        PaintOnTexture_Airbrush(uvPosition, brushRadius, color);
+    }
+
+    // 수신된 float 값을 Color로 변환하여 사용
+    [PunRPC]
+    void RPC_PaintHardType(float uvX, float uvY, int brushRadius, float r, float g, float b, float a)
+    {
+        Vector2 uvPosition = new Vector2(uvX, uvY);
+        Color color = new Color(r, g, b, a); // 받은 float 값을 Color로 변환
+        PaintOnTexture(uvPosition, brushRadius, color);
+    }
+
+    void PaintOnTexture(Vector2 uvPosition, int brushRadius, Color color)
     {
         int texX = (int)(uvPosition.x * texture2D.width);
         int texY = (int)(uvPosition.y * texture2D.height);
@@ -347,16 +235,18 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                     if (px >= 0 && px < texture2D.width && py >= 0 && py < texture2D.height)
                     {
                         Color originalColor = texture2D.GetPixel(px, py);
-                        Color blendedColor = Color.Lerp(originalColor, paintColor, paintColor.a);
-
+                        Color blendedColor = Color.Lerp(originalColor, color, color.a);
                         texture2D.SetPixel(px, py, blendedColor);
                     }
                 }
             }
         }
+        texture2D.Apply(); // 텍스처 업데이트
+        paintingPlane.GetComponent<PlaneScript>().paintedCount++;
+        
     }
 
-    void PaintAtUV_Airbrush(Vector2 uvPosition) // 에어브러쉬용
+    void PaintOnTexture_Airbrush(Vector2 uvPosition, int brushRadius, Color color)
     {
         int texX = (int)(uvPosition.x * texture2D.width);
         int texY = (int)(uvPosition.y * texture2D.height);
@@ -375,18 +265,17 @@ public class RealTimeTexturePainter : MonoBehaviourPun
                     {
                         float alpha = 1 - (distance / brushRadius);
                         Color originalColor = texture2D.GetPixel(px, py);
-                        Color blendedColor = Color.Lerp(originalColor, paintColor, alpha * paintColor.a);
-
+                        Color blendedColor = Color.Lerp(originalColor, color, alpha * color.a);
                         texture2D.SetPixel(px, py, blendedColor);
                     }
                 }
             }
         }
+        texture2D.Apply(); // 텍스처 업데이트
+        paintingPlane.GetComponent<PlaneScript>().paintedCount++;
+
+
     }
-
-
-    
-
 
     public void ColorChange()
     {
@@ -397,59 +286,45 @@ public class RealTimeTexturePainter : MonoBehaviourPun
         }
     }
 
+    public string picName;
     public void SaveTexture()
     {
-        int numbering = 1;//나중에 1로 바꿔줘야됨
-
-        // 파일 경로를 생성
+        int numbering = 1;
         string filePath = Path.Combine(Application.streamingAssetsPath, "pic" + numbering.ToString() + ".png");
 
-        // 동일한 파일이 존재하는지 확인하고, 존재하면 numbering을 증가시켜 새 경로를 생성
         while (File.Exists(filePath))
         {
             numbering++;
             filePath = Path.Combine(Application.streamingAssetsPath, "pic" + numbering.ToString() + ".png");
+            picName = "pic" + numbering.ToString();
         }
 
-        // Texture2D를 PNG 포맷으로 변환하여 파일로 저장
         byte[] bytes = texture2D.EncodeToPNG();
         File.WriteAllBytes(filePath, bytes);
 
         Debug.Log($"Texture saved to {filePath}");
-        //int numbering = 1; // 저장 파일 번호
-
-        //// 파일 경로를 생성
-        //string filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
-
-        //// 동일한 파일이 존재하는지 확인하고, 존재하면 numbering을 증가시켜 새 경로를 생성
-        //while (File.Exists(filePath))
-        //{
-        //    numbering++;
-        //    filePath = Path.Combine(Application.dataPath, "Resources", "pic" + numbering.ToString() + ".png");
-        //}
-
-        //// Plane의 크기에 맞게 텍스처 크기 설정
-        //Vector3 planeSize = GetPlaneSizeInWorldUnits(canvasPlane);
-        //int textureWidth = Mathf.CeilToInt(planeSize.x * 150);
-        //int textureHeight = Mathf.CeilToInt(planeSize.z * 150);
-
-        //// 이미 만들어진 texture2D의 크기와 맞는지 확인 (생성 및 업데이트가 필요하다면 별도의 로직이 필요)
-        //if (texture2D.width != textureWidth || texture2D.height != textureHeight)
-        //{
-        //    Debug.LogWarning("Current texture resolution does not match calculated resolution. Consider regenerating the texture.");
-        //}
-
-        //// Texture2D를 PNG 포맷으로 변환하여 파일로 저장
-        //byte[] bytes = texture2D.EncodeToPNG();
-        //File.WriteAllBytes(filePath, bytes);
-
-        ////Application.streamingAssetsPath
-
-        //Debug.Log($"Texture saved to {filePath}");
-
+        StartCoroutine(UploadTextureToServer(bytes));
     }
 
-    
+    IEnumerator UploadTextureToServer(byte[] pngData)
+    {
+        string uploadURL = "https://7126-59-13-225-125.ngrok-free.app/save_image";
+
+        WWWForm form = new WWWForm();
+        form.AddBinaryData("file", pngData, picName + ".png", "image/png");
+
+        UnityWebRequest www = UnityWebRequest.Post(uploadURL, form);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError($"Upload failed: {www.error}");
+        }
+        else
+        {
+            Debug.Log("Upload successful!");
+        }
+    }
 
     public void SizeChange()
     {

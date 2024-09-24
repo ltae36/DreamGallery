@@ -15,24 +15,39 @@ public class ClickEaselAction : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && Camera.main.gameObject != null) OnMouseDown();
-        else 
+        //if (Input.GetMouseButton(0) && Camera.main.gameObject != null) OnMouseOver();
+        //else 
         {
             outline.OutlineWidth = 0.2f;
             outline.OutlineColor = Color.white;
         }
     }
 
-    private void OnMouseDown()
+    //private void OnMouseDown()
+    //{
+    //    // 마우스 포인터 위치에 레이를 쏜다.
+    //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //    RaycastHit hit;
+    //    if (Physics.Raycast(ray, out hit))
+    //    {
+    //        outline = hit.collider.gameObject.GetComponent<Outline>();
+    //        // 캔버스를 클릭하면 카메라가 전환된다.
+    //        if(outline != null) 
+    //        {
+    //            outline.OutlineWidth = 5.5f;
+    //            outline.OutlineColor = Color.magenta;
+    //        }
+    //    }
+    //}
+
+    private void OnMouseOver()
     {
         // 마우스 포인터 위치에 레이를 쏜다.
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
-        {
-            outline = hit.collider.gameObject.GetComponent<Outline>();
-            // 캔버스를 클릭하면 카메라가 전환된다.
-            if(outline != null) 
+        {            
+            if (outline != null)
             {
                 outline.OutlineWidth = 5.5f;
                 outline.OutlineColor = Color.magenta;

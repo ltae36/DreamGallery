@@ -4,23 +4,13 @@ using UnityEngine;
 
 public class ClickEaselAction : MonoBehaviour
 {
-    // 이젤을 클릭했을 때 
+    // 이젤에 마우스를 가져다대면
     // 아웃라인이 핑크색으로 바뀐다.
     Outline outline;
 
     void Start()
     {
         outline = GetComponent<Outline>();
-    }
-
-    void Update()
-    {
-        //if (Input.GetMouseButton(0) && Camera.main.gameObject != null) OnMouseOver();
-        //else 
-        {
-            outline.OutlineWidth = 0.2f;
-            outline.OutlineColor = Color.white;
-        }
     }
 
     //private void OnMouseDown()

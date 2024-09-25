@@ -15,7 +15,6 @@ public class PicManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(LoadSprites());
     }
 
     // StreamingAsset 폴더에서 이미지 파일 가져오는 함수
@@ -43,7 +42,7 @@ public class PicManager : MonoBehaviour
     //}
 
     // 게임이 시작하면 StreamingAsset 폴더에서 이미지 파일들을 가져온다.
-    IEnumerator LoadSprites()
+    public IEnumerator LoadSprites(System.Action onComplete)
     {
         // StreamingAssets 경로
         string path = Application.streamingAssetsPath;
@@ -97,11 +96,16 @@ public class PicManager : MonoBehaviour
                 #endregion
             }
         }
+
+        // 코루틴 완료 후 콜백 실행
+        onComplete?.Invoke();
+
+        print("그림 불러오기 완료!");
     }
 
     // Texture2D를 Sprite로 변환하는 헬퍼 함수
     private Sprite TextureToSprite(Texture2D texture)
     {
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-    }   
+    }
 }

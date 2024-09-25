@@ -19,6 +19,9 @@ public class PaintingModeMgr : MonoBehaviour
     // 페인팅 모드 UI
     public GameObject paintingTool;
 
+    // 페인팅 뷰 카메라
+    public GameObject[] cameras;
+
     private void Awake()
     {
         //controllCan = new CallBack[canvas.Length]; // 델리게이트 배열을 초기화한다.
@@ -77,6 +80,9 @@ public class PaintingModeMgr : MonoBehaviour
             canvas[i].SetActive(true);
 
             canTransition = true; // 전환을 시작하도록 플래그 설정
+
+            // 카메라를 메인카메라에서 뺀다
+            cameras[i].gameObject.tag = "Untagged";
         }
     }
 }

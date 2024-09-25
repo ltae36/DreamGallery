@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -27,7 +28,8 @@ public class ButtonManager : MonoBehaviourPunCallbacks
     {
         saveFilePath = Application.persistentDataPath + "/galleryData.json";
         print(saveFilePath);
-        LoadGallery();
+
+        StartCoroutine(pm.LoadSprites(LoadGallery));
 
         //// 그림을 넣을 플레인의 메쉬렌더러 컴포넌트를 가져온다.
         //mr = planeW.GetComponentInChildren<MeshRenderer>();
@@ -64,11 +66,6 @@ public class ButtonManager : MonoBehaviourPunCallbacks
 
         // 그림 선택창을 비활성화
         rcm.selectPic.SetActive(false);
-    }
-
-    void SetFrame() 
-    {
-
     }
 
     // 데이터를 저장하는 함수
@@ -117,19 +114,26 @@ public class ButtonManager : MonoBehaviourPunCallbacks
             {
                 newFrame = Instantiate(planeH, frameData.pos, frameData.rot);
             }
-
             int textureIndex = int.Parse(frameData.texturePath);
+            Texture tex = pm.textures[textureIndex];
 
-            // 텍스처 리스트의 범위 내에 있는지 검사
-            if (textureIndex >= 0 && textureIndex < pm.textures.Count)
-            {
-                newFrame.GetComponentInChildren<MeshRenderer>().material.mainTexture = pm.textures[textureIndex];
-            }
-            else
-            {
-                Debug.LogWarning($"Invalid texture index {textureIndex} for frame at position {frameData.pos}");
-            }
+            // 액자에 선택한 그림을 넣는다.
+            MeshRenderer mr = newFrame.GetComponentInChildren<MeshRenderer>();
+            mr.material.mainTexture = tex;
+
+            //// 텍스처 리스트의 범위 내에 있는지 검사
+            //if (textureIndex >= 0 && textureIndex < pm.textures.Count)
+            //{
+            //    newFrame.GetComponentInChildren<MeshRenderer>().material.mainTexture = pm.textures[textureIndex];
+            //}
+            //else
+            //{
+            //    Debug.LogWarning($"Invalid texture index {textureIndex} for frame at position {frameData.pos}");
+            //}
         }
+
+        print("갤러리 정보 불러오기 완료!");
+
     }
 }
 

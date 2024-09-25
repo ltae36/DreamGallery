@@ -21,6 +21,9 @@ public class PaintingMode : MonoBehaviour
     // 페인팅모드 매니저
     PaintingModeMgr pmm;
 
+    // 이젤 콜라이더
+    Collider col;
+
     private bool shouldTransition = false;
     private float transitionProgress = 0f;
     public float transitionSpeed = 2f; // 이동 속도를 조정할 수 있는 변수
@@ -37,8 +40,8 @@ public class PaintingMode : MonoBehaviour
         pmm = pmmObj.GetComponent<PaintingModeMgr>();
     }
     void Start()
-    {        
-
+    {
+        col = GetComponent<BoxCollider>();
     }
 
     void Update()
@@ -69,7 +72,9 @@ public class PaintingMode : MonoBehaviour
             // 캔버스를 클릭하면 카메라가 전환된다.
             if (hit.collider.gameObject.tag == "Paint")
             {
+                col.enabled = false;
                 paintingView.SetActive(true);
+                paintingView.gameObject.tag = "MainCamera";
                 shouldTransition = true; // 전환을 시작하도록 플래그 설정
             }
         }

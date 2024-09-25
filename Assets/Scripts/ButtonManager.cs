@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonManager : MonoBehaviour
+public class ButtonManager : MonoBehaviourPunCallbacks
 {
     // 생성할 액자
     public GameObject planeW;
@@ -25,6 +26,7 @@ public class ButtonManager : MonoBehaviour
     void Start()
     {
         saveFilePath = Application.persistentDataPath + "/galleryData.json";
+        print(saveFilePath);
         LoadGallery();
 
         //// 그림을 넣을 플레인의 메쉬렌더러 컴포넌트를 가져온다.
@@ -58,21 +60,27 @@ public class ButtonManager : MonoBehaviour
         art.transform.position = rcm.blankFrame.position;
 
         // 저장한다
-        SaveFrameData(art.transform.position, index, rcm.checkWH);
+        SaveFrameData(art.transform.position, art.transform.rotation, index, rcm.checkWH);
 
         // 그림 선택창을 비활성화
         rcm.selectPic.SetActive(false);
     }
 
+    void SetFrame() 
+    {
+
+    }
+
     // 데이터를 저장하는 함수
-    void SaveFrameData(Vector3 framePosition, int textureIndex, bool isHorizontal) 
+    void SaveFrameData(Vector3 framePosition, Quaternion frameRotate, int textureIndex, bool isHorizontal)
     {
         GalleryData gallery = LoadGalleryData();
 
         FrameData newFrameData = new FrameData
         {
             pos = framePosition,
-            texturePath = "texture_" + textureIndex,
+            rot = frameRotate,
+            texturePath = textureIndex.ToString(),
             isHorizontal = isHorizontal
         };
         gallery.frames.Add(newFrameData);
@@ -103,23 +111,33 @@ public class ButtonManager : MonoBehaviour
             GameObject newFrame;
             if (frameData.isHorizontal)
             {
-                newFrame = Instantiate(planeW, frameData.pos, Quaternion.identity);
+                newFrame = Instantiate(planeW, frameData.pos, frameData.rot);
             }
             else
             {
-                newFrame = Instantiate(planeH, frameData.pos, Quaternion.identity);
+                newFrame = Instantiate(planeH, frameData.pos, frameData.rot);
             }
 
-            int textureIndex = int.Parse(frameData.texturePath.Replace("texture_", ""));
-            newFrame.GetComponentInChildren<MeshRenderer>().material.mainTexture = pm.textures[textureIndex];
+            int textureIndex = int.Parse(frameData.texturePath);
+
+            // 텍스처 리스트의 범위 내에 있는지 검사
+            if (textureIndex >= 0 && textureIndex < pm.textures.Count)
+            {
+                newFrame.GetComponentInChildren<MeshRenderer>().material.mainTexture = pm.textures[textureIndex];
+            }
+            else
+            {
+                Debug.LogWarning($"Invalid texture index {textureIndex} for frame at position {frameData.pos}");
+            }
         }
     }
 }
 
 [System.Serializable]
-public class FrameData 
+public class FrameData
 {
     public Vector3 pos; // 그림을 건 액자의 위치
+    public Quaternion rot; // 그림 방향
     public string texturePath; // 그림의 텍스처인덱스
     public bool isHorizontal; // 가로세로 구분
 }

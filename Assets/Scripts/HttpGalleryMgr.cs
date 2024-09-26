@@ -11,17 +11,18 @@ public class HttpGalleryMgr : MonoBehaviour
 {
     // 갤러리의 저장 정보를 서버에 POST하여 저장하고
     // 재실행하면 저장 정보를 서버에서 GET하여 로딩한다.
-    public string url;
+    public string urlPost;
+    public string urlGet;
     public ButtonManager buttonManager;
 
     void Start()
     {
-        
+        Get();
     }
 
     public void Get()
     {
-        StartCoroutine(GetRequest(url));
+        StartCoroutine(GetRequest(urlGet));
     }
 
     // Get 통신 코루틴 함수
@@ -64,7 +65,7 @@ public class HttpGalleryMgr : MonoBehaviour
     // 서버에 갤러리 데이터를 Post하는 함수
     public void PostJson() 
     {
-        StartCoroutine(PostJsonRequest(url));
+        StartCoroutine(PostJsonRequest(urlPost));
     }
 
     IEnumerator PostJsonRequest(string url) 

@@ -8118,6 +8118,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2628693026105405745, guid: 1d53e00f6b710a74598c572cfb9ef46f,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4064106049435028247, guid: 1d53e00f6b710a74598c572cfb9ef46f,
         type: 3}
       propertyPath: m_LocalScale.x

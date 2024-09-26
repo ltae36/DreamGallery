@@ -6,6 +6,7 @@ using UnityEngine;
 public class CharacterCustomizing : MonoBehaviour
 {
     public Material[] mat = new Material[2];
+    public static SkinnedMeshRenderer[] all;
     int i = 0;
     void Start()
     {
@@ -15,7 +16,10 @@ public class CharacterCustomizing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            ChangeCharacterMat();
+        }
     }
 
 
@@ -24,7 +28,7 @@ public class CharacterCustomizing : MonoBehaviour
         i = ++i % 2;
 
         // Change Material
-        SkinnedMeshRenderer[] all = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+        all = gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
         foreach (SkinnedMeshRenderer material in all)
         {
             material.material = mat[i];

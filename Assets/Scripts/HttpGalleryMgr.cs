@@ -20,6 +20,18 @@ public class HttpGalleryMgr : MonoBehaviour
         Get();
     }
 
+    //private void Update()
+    //{
+    //    if(Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        Get();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    {
+    //        PostJson();
+    //    }
+    //}
+
     public void Get()
     {
         StartCoroutine(GetRequest(urlGet));
@@ -65,7 +77,7 @@ public class HttpGalleryMgr : MonoBehaviour
     // 서버에 갤러리 데이터를 Post하는 함수
     public void PostJson() 
     {
-        StartCoroutine(PostJsonRequest(urlPost));
+        StartCoroutine(PostFormDataRequest(urlPost));
     }
 
     IEnumerator PostJsonRequest(string url) 
@@ -101,6 +113,37 @@ public class HttpGalleryMgr : MonoBehaviour
                 Debug.LogError(request.error);
             }
         }       
+
+    }
+
+    IEnumerator PostFormDataRequest(string url)
+    {
+        string filePath = buttonManager.saveFilePath;// Application.persistentDataPath + "/galleryData.json";
+
+        if (File.Exists(filePath))
+        {
+            byte[] jsonBytes = File.ReadAllBytes(filePath);
+
+            IMultipartFormSection file = new MultipartFormFileSection("file", jsonBytes, "file", "multipart/form-data");
+            List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+            formData.Add(file);             
+
+            // Post를 하기 위한 준비를 한다.
+            UnityWebRequest request = UnityWebRequest.Post(url, formData);
+
+            // 서버에 POST 요청을 보내고 응답을 기다림
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("json 파일 업로드 성공");
+
+            }
+            else
+            {
+                Debug.LogError(request.error);
+            }
+        }
 
     }
 }

@@ -213,10 +213,8 @@ GameObject:
   - component: {fileID: 7167218266086401185}
   - component: {fileID: 6389795934801366275}
   - component: {fileID: 8055038196013256915}
-  - component: {fileID: 3156714013441021326}
   - component: {fileID: 7208264537483398254}
-  - component: {fileID: 1229121309914104610}
-  - component: {fileID: 1882535701880478686}
+  - component: {fileID: 6546789095869140288}
   m_Layer: 0
   m_Name: PaintingModeCam
   m_TagString: Untagged
@@ -363,29 +361,6 @@ MonoBehaviour:
   size: {fileID: 0}
   colorHex: {fileID: 0}
   picName: 
---- !u!114 &3156714013441021326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8857739327268127606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 7208264537483398254}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!114 &7208264537483398254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,30 +377,7 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &1229121309914104610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8857739327268127606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: 7208264537483398254}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &1882535701880478686
+--- !u!114 &6546789095869140288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

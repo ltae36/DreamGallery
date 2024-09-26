@@ -5034,6 +5034,7 @@ GameObject:
   - component: {fileID: 1346340704}
   - component: {fileID: 1346340703}
   - component: {fileID: 1346340702}
+  - component: {fileID: 1346340705}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5080,6 +5081,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1346340705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1346340701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 4
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1346658892
 GameObject:
   m_ObjectHideFlags: 0
@@ -6006,31 +6029,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1229121309914104610, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1882535701880478686, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 2811560389229373244, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
         type: 3}
       propertyPath: sceneViewId
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3156714013441021326, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
-        type: 3}
-      propertyPath: sceneViewId
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6389795934801366275, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
         type: 3}
       propertyPath: m_VolumeTrigger
       value: 
       objectReference: {fileID: 1699180185}
+    - target: {fileID: 6546789095869140288, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7432654040343883403, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
         type: 3}
       propertyPath: ChatUI
@@ -6041,11 +6054,6 @@ PrefabInstance:
       propertyPath: exitChat
       value: 
       objectReference: {fileID: 1639430959}
-    - target: {fileID: 7432654040343883403, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
-        type: 3}
-      propertyPath: question
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8023636047050031391, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
         type: 3}
       propertyPath: m_Name
@@ -6123,19 +6131,9 @@ PrefabInstance:
       objectReference: {fileID: 622647305}
     - target: {fileID: 8055038196013256915, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
         type: 3}
-      propertyPath: question
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8055038196013256915, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
-        type: 3}
       propertyPath: userInput
       value: 
       objectReference: {fileID: 978019707}
-    - target: {fileID: 8857739327268127606, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8004,6 +8002,11 @@ PrefabInstance:
       propertyPath: m_VolumeTrigger
       value: 
       objectReference: {fileID: 1699180185}
+    - target: {fileID: 6546789095869140288, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7934070216501287166, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
         type: 3}
       propertyPath: m_Enabled
@@ -8139,6 +8142,11 @@ PrefabInstance:
       propertyPath: m_VolumeTrigger
       value: 
       objectReference: {fileID: 1699180185}
+    - target: {fileID: 6546789095869140288, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
+        type: 3}
+      propertyPath: sceneViewId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7934070216501287166, guid: 314bf5dfdaabb344ab0a53361d7d0c4b,
         type: 3}
       propertyPath: m_Enabled

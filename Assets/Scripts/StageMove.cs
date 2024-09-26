@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 
 
-public class StageMove : MonoBehaviour
+public class StageMove : MonoBehaviourPun
 {
     // 문을 클릭하면 문이 열리면서 다른 장소로 이동한다.
 

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
 
-public class StageMove : MonoBehaviour
+
+public class StageMove : MonoBehaviourPun
 {
     // 문을 클릭하면 문이 열리면서 다른 장소로 이동한다.
 
@@ -53,6 +55,6 @@ public class StageMove : MonoBehaviour
     {
         yield return new WaitForSeconds(sec);
         // 씬이 이동됨
-        SceneManager.LoadScene("AtelierScene");
+        PhotonNetwork.LoadLevel("AtelierScene");
     }
 }

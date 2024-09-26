@@ -15,16 +15,16 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.178706, g: 0.038892835, b: 0.4339623, a: 1}
+    m_Value: {r: 0.38679248, g: 0.2654963, b: 0.14778392, a: 1}
   center:
     m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.363
+    m_Value: 0.317
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.172
+    m_Value: 0.256
   rounded:
     m_OverrideState: 0
     m_Value: 0
@@ -69,7 +69,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 6
   dirtTexture:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {fileID: 0}
     dimension: 1
   dirtIntensity:
@@ -91,6 +91,29 @@ MonoBehaviour:
   - {fileID: -32820517437979890}
   - {fileID: 7325253136961841314}
   - {fileID: -2042422141385067352}
+  - {fileID: 6402423205734110263}
+--- !u!114 &6402423205734110263
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  lift:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.006949269}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: -0.12912492}
+  gain:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 0.08608321}
 --- !u!114 &7325253136961841314
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -107,7 +130,7 @@ MonoBehaviour:
   master:
     m_OverrideState: 1
     m_Value:
-      <length>k__BackingField: 5
+      <length>k__BackingField: 3
       m_Loop: 0
       m_ZeroValue: 0
       m_Range: 1
@@ -117,35 +140,17 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 0
           value: 0
-          inSlope: 1.164881
-          outSlope: 1.164881
+          inSlope: 0
+          outSlope: 1.1433554
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
-          time: 0.29985008
-          value: 0.38080496
-          inSlope: 1.2390089
-          outSlope: 1.2390089
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.5082459
-          value: 0.58204335
-          inSlope: 1.3131073
-          outSlope: 1.3131073
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.66266865
-          value: 0.82972133
-          inSlope: 0.92715025
-          outSlope: 0.92715025
+          time: 0.41883767
+          value: 0.64016736
+          inSlope: 1
+          outSlope: 1
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
@@ -153,8 +158,8 @@ MonoBehaviour:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0.48588622
-          outSlope: 0.48588622
+          inSlope: 0.3939372
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0

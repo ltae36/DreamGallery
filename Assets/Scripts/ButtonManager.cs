@@ -21,7 +21,7 @@ public class ButtonManager : MonoBehaviourPunCallbacks
     //GameObject clickObject;
     //Texture tex;
 
-    string saveFilePath;
+    public string saveFilePath;
     GameObject art;
 
     void Start()
@@ -99,7 +99,7 @@ public class ButtonManager : MonoBehaviourPunCallbacks
     }
 
     // 저장된 갤러리 로드 및 복원
-    private void LoadGallery()
+    public void LoadGallery()
     {
         GalleryData galleryData = LoadGalleryData();
 

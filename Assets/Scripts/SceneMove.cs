@@ -14,4 +14,9 @@ public class SceneMove : MonoBehaviour
     {
         SceneManager.LoadScene("ConnectScene");
     }
+
+    public void ToAtelier() 
+    {
+        SceneManager.LoadScene("AtelierScene");
+    }
 }

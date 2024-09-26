@@ -104,9 +104,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 3
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 1
+  outlineMode: 1
+  outlineColor: {r: 0, g: 0, b: 1, a: 1}
+  outlineWidth: 1.5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -213,6 +213,8 @@ GameObject:
   - component: {fileID: 7167218266086401185}
   - component: {fileID: 6389795934801366275}
   - component: {fileID: 8055038196013256915}
+  - component: {fileID: 7208264537483398254}
+  - component: {fileID: 6546789095869140288}
   m_Layer: 0
   m_Name: PaintingModeCam
   m_TagString: Untagged
@@ -350,7 +352,7 @@ MonoBehaviour:
   userInput: {fileID: 0}
   ChatUI: {fileID: 0}
   question: {fileID: 0}
-  materialToModify: {fileID: 0}
+  materialToModify: {fileID: 2100000, guid: 77cc5f8fa6f672e498175f9b700d6942, type: 2}
   paintColor: {r: 1, g: 0, b: 0, a: 1}
   brushRadius: 2
   canvasPlane: {fileID: 7884809235236451716}
@@ -359,6 +361,45 @@ MonoBehaviour:
   size: {fileID: 0}
   colorHex: {fileID: 0}
   picName: 
+--- !u!114 &7208264537483398254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8857739327268127606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &6546789095869140288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8857739327268127606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: 7208264537483398254}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &5666760189262408077
 PrefabInstance:
   m_ObjectHideFlags: 0

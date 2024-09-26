@@ -13,6 +13,13 @@ public class ClickEaselAction : MonoBehaviour
         outline = GetComponent<Outline>();
     }
 
+    private void Update()
+    {
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
+        outline.OutlineWidth = 1.5f;
+        outline.OutlineColor = Color.blue;
+    }
+
     //private void OnMouseDown()
     //{
     //    // 마우스 포인터 위치에 레이를 쏜다.
@@ -39,6 +46,7 @@ public class ClickEaselAction : MonoBehaviour
         {            
             if (outline != null)
             {
+                outline.OutlineMode = Outline.Mode.OutlineAndSilhouette;
                 outline.OutlineWidth = 5.5f;
                 outline.OutlineColor = Color.magenta;
             }

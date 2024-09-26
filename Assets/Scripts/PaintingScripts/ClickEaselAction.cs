@@ -17,7 +17,7 @@ public class ClickEaselAction : MonoBehaviour
     {
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.OutlineWidth = 1.5f;
-        outline.OutlineColor = Color.blue;
+        outline.OutlineColor = Color.cyan;
     }
 
     //private void OnMouseDown()

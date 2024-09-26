@@ -64,6 +64,6 @@ public class ConnectionTest : MonoBehaviourPunCallbacks
         print("방 입장 완료");
         //멀티플레이 컨텐츠를 즐길 수 있는 상태
         //메인으로 이동
-        PhotonNetwork.LoadLevel("PaintingScene");
+        PhotonNetwork.LoadLevel("PaintingScene 2");
     }
 }

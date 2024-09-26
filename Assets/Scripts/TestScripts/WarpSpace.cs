@@ -13,9 +13,12 @@ public class WarpSpace : MonoBehaviour
 
     void Start()
     {
-        moveButton.SetActive(false);
-
         anim = GetComponentInParent<Animator>();
+    }
+
+    private void Update()
+    {
+        moveButton.SetActive(false);
     }
 
     private void OnTriggerStay(Collider other)

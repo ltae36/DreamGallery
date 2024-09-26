@@ -13,12 +13,12 @@ public class WarpSpace : MonoBehaviour
 
     void Start()
     {
+        moveButton.SetActive(false);
         anim = GetComponentInParent<Animator>();
     }
 
     private void Update()
     {
-        moveButton.SetActive(false);
     }
 
     private void OnTriggerStay(Collider other)
@@ -27,6 +27,15 @@ public class WarpSpace : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             moveButton.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // 문 앞에 플레이어가 있는 것을 확인한다.
+        if (other.gameObject.tag == "Player")
+        {
+            moveButton.SetActive(false);
         }
     }
 }

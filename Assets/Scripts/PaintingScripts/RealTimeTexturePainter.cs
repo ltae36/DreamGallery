@@ -132,14 +132,14 @@ public class RealTimeTexturePainter : MonoBehaviourPun // MonoBehaviourPun으로
         //    print("AI에 지금까지 그린 그림 전송");
         //}
 
-        if (ChatUI.activeInHierarchy)
-        {
-            canPaint = false;
-        }
-        else
-        {
-            canPaint = true;
-        }
+        //if (ChatUI.activeInHierarchy)
+        //{
+        //    canPaint = false;
+        //}
+        //else
+        //{
+        //    canPaint = true;
+        //}
 
         if (!canPaint)
         {

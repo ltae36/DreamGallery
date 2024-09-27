@@ -14,13 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneTR/LobbyScene.unity
     guid: 90ed3e26bb03c7146a832f11bead79e0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SceneTR/AtelierScene1.unity
     guid: be4247ee206207b4b88873f28dba9d68
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/KGCSCene/Connection.unity
     guid: becb675fc827046489d55279bb08303e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/KGCSCene/PaintingScene.unity
     guid: 389aa851cfdf8d047b4b9fd57a181ddd
   - enabled: 1

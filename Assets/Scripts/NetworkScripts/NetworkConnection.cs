@@ -52,9 +52,9 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-
         // 로딩 화면으로 이동
         PhotonNetwork.LoadLevel("LobbyScene");
+
 
         // 자동으로 방 생성
         print("로비 진입 성공");
@@ -89,10 +89,8 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
-        base.OnCreatedRoom();
 
-        // 갤러리 씬으로 이동
-        PhotonNetwork.LoadLevel("ConnectScene");
+        base.OnCreatedRoom();
         print("방 생성 완료");
     }
 
@@ -105,6 +103,18 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
 
     #region 방 입장
     public void JoinRoom()
+    {
+        // 방문하기 버튼을 누르면 방을 떠난다.
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        VisitRoom();
+    }
+
+    void VisitRoom() 
     {
         // 방 입장 요청
         PhotonNetwork.JoinRoom(userID.text);

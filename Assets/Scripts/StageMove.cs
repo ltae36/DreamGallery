@@ -55,6 +55,8 @@ public class StageMove : MonoBehaviourPun
     {
         yield return new WaitForSeconds(sec);
         // 씬이 이동됨
-        PhotonNetwork.LoadLevel("AtelierScene");
+
+        if (SceneManager.GetActiveScene().name != "AtelierScene") PhotonNetwork.LoadLevel("AtelierScene");
+        else PhotonNetwork.LoadLevel("ConnectScene");
     }
 }

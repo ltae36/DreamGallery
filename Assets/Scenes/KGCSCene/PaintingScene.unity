@@ -308,7 +308,7 @@ MonoBehaviour:
   result_text: {fileID: 1575970702}
   recodingText: {fileID: 1135135715}
   clicked: 0
-  uploadURL: https://d44b-59-13-225-125.ngrok-free.app/chatbot/audio
+  uploadURL: 'https://aebd-59-13-225-125.ngrok-free.app/audio '
 --- !u!114 &256201236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5b2fa17f3986d7498510527fbe64620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://d44b-59-13-225-125.ngrok-free.app/chatbot/text
+  url: https://aebd-59-13-225-125.ngrok-free.app/chatbot/text
   result_text: {fileID: 1575970702}
   userInput: {fileID: 273775548}
   postButton: {fileID: 733143260}
@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cafeef25ed85919468b5cabd5c967520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://d44b-59-13-225-125.ngrok-free.app/chatbot/diary
+  url: https://aebd-59-13-225-125.ngrok-free.app/chatbot/diary
   result_text: {fileID: 1484512188}
 --- !u!1 &273775546
 GameObject:

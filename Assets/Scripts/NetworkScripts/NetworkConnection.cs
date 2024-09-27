@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class NetworkConnection : MonoBehaviourPunCallbacks
 {
@@ -12,9 +13,12 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
     //public GameObject mychar;
 
     public TMP_InputField userID;
+    bool checkLeftRoom;
+    string roomName;
 
     void Start()
     {
+        checkLeftRoom = false;
         //// 멀티플레이 상태라면
         //if (PhotonNetwork.IsConnected) 
         //{
@@ -26,8 +30,10 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
         userID.onValueChanged.AddListener(OnValueChangedRoomID);
     }
 
+
+
     // 로그인 버튼을 눌렀을 때
-    public void OnClickConnect() 
+    public void OnClickConnect()
     {
         // 로그인 버튼을 누르면 마스터 서버에 접속 시도
         PhotonNetwork.ConnectUsingSettings();
@@ -52,19 +58,26 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         base.OnJoinedLobby();
-        // 로딩 화면으로 이동
-        PhotonNetwork.LoadLevel("LobbyScene");
-
-
-        // 자동으로 방 생성
         print("로비 진입 성공");
+        // 로비에 들어왔을 때 방을 나갔다 들어온 상태라면 single 모드로 넘어가고 아니라면 로비씬으로 넘어감
+        if (!checkLeftRoom)
+        {
+            // 로딩 화면으로 이동
+            PhotonNetwork.LoadLevel("LobbyScene");
+            // 자동으로 방 생성
+            CreateNewRoom();
+        }
+        else
+        {
+            PhotonNetwork.LoadLevel("ConnectSceneSingle");
+        }
 
-        CreateNewRoom();
+
     }
-
-    public void MoveSetting() 
+    public override void OnLeftRoom()
     {
-        PhotonNetwork.LoadLevel("LobbyScene");
+        base.OnLeftRoom();
+        checkLeftRoom = true;
     }
 
     // 입력에 따른 버튼 활성화
@@ -80,16 +93,17 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
         // 방 옵션 설정
         RoomOptions option = new RoomOptions();
         // 공개 여부 설정
-        option.IsVisible = false;
+        option.IsVisible = true;
         // 최대 인원 설정
         option.MaxPlayers = 20;
+        // 방 이름 설정
+        roomName = userID.text;
         // 방을 생성
-        PhotonNetwork.CreateRoom(userID.text, option);
+        PhotonNetwork.CreateRoom(roomName, option);
     }
 
     public override void OnCreatedRoom()
     {
-
         base.OnCreatedRoom();
         print("방 생성 완료");
     }
@@ -108,13 +122,7 @@ public class NetworkConnection : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom()
-    {
-        base.OnLeftRoom();
-        VisitRoom();
-    }
-
-    void VisitRoom() 
+    public void VisitRoom()
     {
         // 방 입장 요청
         PhotonNetwork.JoinRoom(userID.text);

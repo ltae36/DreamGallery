@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/KGCSCene/PaintingScene.unity
     guid: 389aa851cfdf8d047b4b9fd57a181ddd
   - enabled: 1
+    path: Assets/Scenes/SceneTR/ConnectSceneSingle.unity
+    guid: 975c6a34ea9153b4698473d24ce036d6
+  - enabled: 1
     path: Assets/Character/Scenes/CharacterScene.unity
     guid: 867f87b7779e2ca4c8721c38e7999005
   - enabled: 1

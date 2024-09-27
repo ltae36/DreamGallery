@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class SaveSummery : SummeryText
+public class SaveSummery : MonoBehaviour
 {
     string diary;
-
+    GameObject summery;
+    SummeryText summeryText;
     public TMP_Text diaryText;
 
     void Start()
     {
-        PlayerPrefs.GetString("SummeryText", summeryText);
+        summery = GameObject.Find("SummeryTextLog");
+        summeryText = summery.GetComponent<SummeryText>();
     }
 
     void Update()
     {
-        diary = summeryText;
-        diaryText.text = diary;
+        diaryText.text = summeryText.summeryText;
     }
 }

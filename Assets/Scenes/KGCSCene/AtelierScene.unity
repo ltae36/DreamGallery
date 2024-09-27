@@ -445,7 +445,7 @@ MonoBehaviour:
   result_text: {fileID: 1575970702}
   recodingText: {fileID: 1135135715}
   clicked: 0
-  uploadURL: https://aebd-59-13-225-125.ngrok-free.app/audio
+  uploadURL: https://aebd-59-13-225-125.ngrok-free.app/chatbot/audio
 --- !u!114 &256201236
 MonoBehaviour:
   m_ObjectHideFlags: 0

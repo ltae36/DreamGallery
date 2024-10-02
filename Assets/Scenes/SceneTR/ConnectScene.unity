@@ -8587,8 +8587,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95d41aa4ee8b494fbb07c4f466f20b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  urlPost: https://2781-59-13-225-125.ngrok-free.app/save_gallery_data
-  urlGet: https://2781-59-13-225-125.ngrok-free.app/get_gallery_data
+  urlPost: https://815f-59-13-225-125.ngrok-free.app/save_gallery_data
+  urlGet: https://815f-59-13-225-125.ngrok-free.app/get_gallery_data
   buttonManager: {fileID: 736892216}
 --- !u!1 &1229964513
 GameObject:
